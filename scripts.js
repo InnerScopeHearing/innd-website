@@ -291,10 +291,16 @@
     if (!mount) return;
     mount.innerHTML = `
       <div class="quote-card">
-        <p class="quote-symbol">INND</p>
+        <div class="quote-header">
+          <span class="quote-symbol">INND</span>
+          <span class="quote-status" id="quote-status" aria-live="polite">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span class="quote-status-text">Loading…</span>
+          </span>
+        </div>
         <p class="quote-price" id="quote-price">—</p>
         <p class="quote-change" id="quote-change"></p>
-        <p class="quote-meta" id="quote-meta">Loading…</p>
+        <p class="quote-meta" id="quote-meta">Fetching latest quote…</p>
       </div>`;
     try {
       const r = await fetch('/.netlify/functions/quote');
@@ -306,9 +312,29 @@
       const el = $('#quote-change');
       el.textContent = `${dir} ${Math.abs(ch).toFixed(2)}%`;
       el.style.color = ch > 0 ? 'var(--color-accent-2)' : ch < 0 ? 'var(--color-danger)' : 'inherit';
-      $('#quote-meta').textContent = `As of ${new Date(q.ts).toLocaleTimeString()} · Source: ${q.source} · Rounded to nearest 0.0001`;
+      const time = new Date(q.ts).toLocaleTimeString();
+      $('#quote-meta').textContent = q.mock
+        ? 'Synthetic data shown (no API key set). Activate live by adding POLYGON_API_KEY in Netlify env vars.'
+        : `As of ${time} · Source: ${q.source} · Rounded to nearest 0.0001`;
+      // Status pill: pulse dot for live, static badge for mock
+      const status = $('#quote-status');
+      if (q.mock) {
+        status.classList.add('is-mock');
+        status.querySelector('.quote-status-text').textContent = 'MOCK';
+      } else {
+        status.classList.add('is-live');
+        status.querySelector('.quote-status-text').textContent = 'LIVE';
+      }
+      // Mirror the price into ir-glance "Last" cell if present
+      const lastCell = document.querySelector('[data-glance="last"]');
+      if (lastCell) lastCell.textContent = `$${formatSubPennyPrice(Number(q.price))}`;
     } catch (err) {
       $('#quote-meta').textContent = 'Live data temporarily unavailable. See OTC Markets for execution-grade pricing.';
+      const status = $('#quote-status');
+      if (status) {
+        status.classList.add('is-error');
+        status.querySelector('.quote-status-text').textContent = 'OFFLINE';
+      }
     }
   }
 
