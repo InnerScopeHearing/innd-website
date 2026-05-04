@@ -589,6 +589,66 @@ p:last-child { margin-bottom: 0; }
 }
 .fls p { font-size: 0.85em; line-height: 1.65; color: rgba(248, 250, 252, 0.78); margin-bottom: 12px; }
 
+
+/* ---------- Photo treatments (Issue #2) ---------- */
+
+/* Marvin Posey 1950s — period-correct B&W with subtle film grain */
+.legacy-photo-hero { position: relative; }
+.legacy-photo-hero img {
+  filter: grayscale(0.88) contrast(1.06);
+  transition: filter 0.5s ease;
+}
+.legacy-photo-hero:hover img { filter: grayscale(0.55) contrast(1.04); }
+.legacy-photo-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='ng'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.75 0'/></filter><rect width='100%25' height='100%25' filter='url(%23ng)' opacity='0.06'/></svg>");
+  background-size: 200px 200px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  border-radius: inherit;
+}
+
+/* 1989 family clinic — warm sepia, era-appropriate */
+.legacy-photo-body img {
+  filter: sepia(0.22) saturate(1.08) brightness(1.02);
+  transition: filter 0.5s ease;
+}
+.legacy-photo-body:hover img { filter: sepia(0.1) saturate(1.04) brightness(1.0); }
+
+/* 2016 family listing — subtle dark-edge vignette for editorial weight */
+.leadership-hero { position: relative; isolation: isolate; }
+.leadership-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.22) 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+.leadership-hero figcaption { position: relative; z-index: 2; }
+
+/* Matthew at Nasdaq 2021 — bottom-up gradient overlay so caption sits on dark band */
+.ir-photo { position: relative; isolation: isolate; }
+.ir-photo::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 38%;
+  background: linear-gradient(180deg, transparent 0%, rgba(11, 18, 32, 0.55) 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+.ir-photo figcaption { position: relative; z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .legacy-photo-hero img,
+  .legacy-photo-body img { transition: none; }
+}
+
 /* ---------- Reveal animation (single subtle one) ---------- */
 
 [data-reveal] {
