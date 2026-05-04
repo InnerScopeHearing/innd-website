@@ -1,0 +1,19 @@
+{
+  "ir_email": "ir@innd.com",
+  "partnerships_email": "partnerships@innd.com",
+  "general_email": "info@innd.com",
+  "address": {
+    "locality": "Roseville",
+    "region": "CA",
+    "country": "US"
+  },
+  "external_links": {
+    "otc_markets_overview": "https://www.otcmarkets.com/stock/INND/overview",
+    "otc_markets_disclosure": "https://www.otcmarkets.com/stock/INND/disclosure",
+    "otc_markets_quote": "https://www.otcmarkets.com/stock/INND/quote",
+    "tradingview": "https://www.tradingview.com/symbols/OTC-INND/",
+    "yahoo_finance": "https://finance.yahoo.com/quote/INND",
+    "otchealthmart": "https://www.otchealthmart.com/"
+  },
+  "todo": "TODO: confirm with operator: ir@, partnerships@, info@ addresses are provisioned and monitored."
+}

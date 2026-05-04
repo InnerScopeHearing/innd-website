@@ -1,0 +1,27 @@
+{
+  "eyebrow": "Brands & solutions",
+  "heading": "Two product families. One mission: affordable, dignified hearing care.",
+  "intro": "InnerScope's hearing-technology IP and brand portfolio reach consumers through OTCHealth, the private operating company that holds the brand rights and operates OTCHealthMart.com as the consumer storefront.",
+  "brands": [
+    {
+      "name": "HearingAssist",
+      "tagline": "Mass-market OTC hearing aids.",
+      "description": "Affordable, simple, straightforward path to better hearing. From 2018 through 2023, HearingAssist was Walmart's largest dedicated hearing-aid supplier — reporting more than 500,000 units sold and over $72M in cumulative top-line revenue across that period. The brand expanded into CVS, RiteAid, and pharmacy networks and is operated today by OTCHealth, the private operating company.",
+      "channels": [
+        "OTCHealthMart.com",
+        "National retail pharmacy"
+      ],
+      "purchase_url": "https://www.otchealthmart.com/"
+    },
+    {
+      "name": "iHEAR & iHEAR Matrix",
+      "tagline": "Technology-forward OTC hearing solutions.",
+      "description": "Silicon Valley–engineered, FDA-cleared. Includes the iHEARtest at-home hearing screener, advanced hearing aids and PSAPs, and the iHEAR Matrix Rechargeable OTC Hearing Aids — placed in Walmart's nationwide OTC Hearing Aid Display in 4,218 stores at launch in November 2023. App-based control, remote fitting, and teleaudiology infrastructure originated with InnerScope's 2021 acquisition of iHEAR Medical and continue under OTCHealth's operation today.",
+      "channels": [
+        "OTCHealthMart.com",
+        "National retail"
+      ],
+      "purchase_url": "https://www.otchealthmart.com/"
+    }
+  ]
+}

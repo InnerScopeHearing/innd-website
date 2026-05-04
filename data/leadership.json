@@ -1,0 +1,21 @@
+{
+  "eyebrow": "Leadership",
+  "heading": "Family-rooted operating experience meets public-markets discipline.",
+  "intro": "InnerScope's leadership traces directly to the family hearing-care practice that started in the 1950s. The clinic-floor instinct still shapes how the company chooses what to build, what to ship, and which partnerships to enter.",
+  "hero_photo": {
+    "src": "03-moore-family-2016-listing",
+    "alt": "Matthew Moore, Mark Moore, and Kim Moore — InnerScope Hearing Technologies leadership — at the time of the company's public-market debut.",
+    "caption": "Matthew, Mark, and Kim Moore at the time InnerScope Hearing Technologies first entered the public markets.",
+    "width": 1200,
+    "height": 682
+  },
+  "leaders": [
+    {
+      "name": "Matthew Moore",
+      "title": "President & Chief Executive Officer",
+      "bio": "Matt has led InnerScope as President and CEO for more than a decade. Under his leadership the company completed the iHEAR Medical and Hearing Assist II LLC acquisitions in 2021, scaled net revenue from roughly $166K in 2020 to $15.28M in 2022 (with $5.58M net profit at a ~36% EBT margin), oversaw the iHEAR Matrix rollout into 4,218 Walmart stores in 2023, and structured InnerScope's 2025 entry into the Ainnova / OTCHealth strategic alliance. His operating perspective is grounded in the family's long history in hearing care, combined with a capital-markets and deal-making mindset.",
+      "photo": null
+    }
+  ],
+  "additional_leaders_note": "Additional leadership and advisory bios will be added here. <!-- TODO: operator to supply names, titles, photos, and bio copy for the rest of the leadership and advisory team. -->"
+}

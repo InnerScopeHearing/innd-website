@@ -1,0 +1,46 @@
+{
+  "eyebrow": "Growth timeline",
+  "heading": "From founding practice to public-company platform.",
+  "events": [
+    {
+      "year": "1950s",
+      "title": "Family hearing-care practice founded",
+      "summary": "Marvin Posey opens a hearing-aid practice in Central California, the first chapter of what becomes a multi-generation hearing-care life."
+    },
+    {
+      "year": "1989",
+      "title": "Next generation steps in",
+      "summary": "Mark and Kim Moore are running the family clinic; a young Matthew Moore (today INND's CEO) grows up inside the fitting rooms and workbenches."
+    },
+    {
+      "year": "2017",
+      "title": "InnerScope enters the public markets",
+      "summary": "Family-rooted operating experience meets capital-markets infrastructure. Listed on OTC as INND."
+    },
+    {
+      "year": "2021",
+      "title": "Step-function growth via acquisitions",
+      "summary": "Acquires iHEAR Medical (FDA-cleared technology + teleaudiology platform) and Hearing Assist II LLC (Walmart's largest dedicated hearing-aid supplier at the time)."
+    },
+    {
+      "year": "2022",
+      "title": "First profitable full year",
+      "summary": "$15.28M net revenue, $5.58M net profit, ~36% earnings-before-tax margin — unusually profitable for a microcap hearing-tech operator."
+    },
+    {
+      "year": "2023",
+      "title": "iHEAR Matrix lands in 4,218 Walmart stores",
+      "summary": "Wholesale vendor selection places iHEAR Matrix Rechargeable OTC Hearing Aids in Walmart's nationwide OTC Hearing Aid Display."
+    },
+    {
+      "year": "2025",
+      "title": "OTCHealthMart.com launches",
+      "summary": "Direct-to-consumer e-commerce platform for OTC hearing aids alongside vitamins, supplements, and (planned) durable medical equipment for the 55+ demographic."
+    },
+    {
+      "year": "2025",
+      "title": "Strategic alliance with Ainnova / OTCHealth",
+      "summary": "InnerScope joins the announced acquisition of OTCHealth Inc. by Ainnova Tech Inc. — receiving equity and profit-participation rights in both entities while refocusing on proprietary hearing-technology R&D."
+    }
+  ]
+}

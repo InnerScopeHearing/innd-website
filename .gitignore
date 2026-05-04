@@ -1,0 +1,31 @@
+# Dependencies (none in v1, but good defaults for any future tooling)
+node_modules/
+.npm/
+.pnpm-store/
+
+# Build artifacts (none currently — site is static)
+dist/
+build/
+.cache/
+
+# Environment & secrets — NEVER commit
+.env
+.env.*
+*.local
+secrets.json
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Netlify local state
+.netlify/
+
+# Logs
+*.log
+npm-debug.log*

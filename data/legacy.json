@@ -1,0 +1,29 @@
+{
+  "eyebrow": "Three generations",
+  "heading": "A family that built a hearing-care life, not just a hearing-care business.",
+  "intro": "InnerScope's roots run through a small Central California audiology practice founded by Marvin Posey in the 1950s. That practice grew over decades into more than seventy clinics and tens of millions in cumulative hearing-care revenue — built on a single principle: treat every patient like a neighbor, focus on real outcomes, build long-term relationships.",
+  "body": [
+    "The next generation grew up inside that environment. Mark and Kim Moore raised their family in and around the family clinics — fitting rooms, workbenches, the quiet rhythm of a profession measured one patient at a time. Their son Matthew, today InnerScope's CEO, spent his childhood watching adjustments being made and outcomes being explained.",
+    "When the over-the-counter hearing-aid category opened up nationally, that operational understanding traveled with the family into the public markets. The clinic-floor instinct — affordability matters, simplicity matters, dignity matters — still anchors how InnerScope chooses what to build."
+  ],
+  "photos": [
+    {
+      "src": "01-marvin-posey-1950s",
+      "alt": "Marvin Posey, founder of the family hearing-aid practice, photographed in the 1950s with an early audiometer.",
+      "caption": "Marvin Posey with one of the early audiometers used in the family practice, Central Valley California, 1950s.",
+      "width": 600,
+      "height": 460,
+      "placement": "hero",
+      "loading": "eager"
+    },
+    {
+      "src": "02-moore-family-clinic-1989",
+      "alt": "Mark and Kim Moore with their two young sons inside the family hearing-aid clinic, 1989. A young Matthew Moore is seated at the front of the photo.",
+      "caption": "Mark and Kim Moore with their children — including a young Matthew Moore — at the family hearing clinic, 1989.",
+      "width": 529,
+      "height": 361,
+      "placement": "body",
+      "loading": "lazy"
+    }
+  ]
+}
