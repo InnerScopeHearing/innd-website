@@ -1,43 +1,101 @@
 # Changelog
 
-All notable changes to the INND.com website will be documented in this file.
+All notable changes to the INND.com website are documented here.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [1.0.0] — 2026-04-25
+---
 
-Initial public-ready build of INND.com per `INND-website-mega-prompt-v2.md`.
+## [1.1.0] - 2026-05-04
+
+The "design polish + custom hero ticker" release. Major visual transformation
+plus a custom-built hero quote card that pulls live INND data from the same
+TradingView feed used by OTC Markets widgets.
 
 ### Added
 
-- Single-page corporate + investor-relations site (10 sections: Hero, Legacy, Growth Timeline, Where INND is Today, Brands & Solutions, Market Opportunity, Leadership, Investor Relations, Contact & Partnerships, Footer).
-- JSON-driven content via `data/*.json` (10 files) so non-engineers can update copy without code changes.
-- TradingView Tier 1 ticker (hero) + advanced chart (IR section), each with adjacent quote-delay disclosure.
-- Netlify Function `quote.js` — Polygon.io primary + Finnhub fallback adapters for Tier 3 real-time quotes (skeleton, inactive at v1 ship).
-- Netlify Function `health.js` — build SHA + provider status for ops verification.
-- Pre-populated `data/press-releases.json` with 12 verified items spanning May 2021 → October 2025.
-- Pre-populated `data/financial-highlights.json` with 2021–2022 figures (no post-2022 extrapolation).
-- Verbatim §5 "Where INND is today" copy describing the Ainnova / OTCHealth strategic alliance and INND's R&D refocus.
-- Substantive forward-looking-statements block in `data/disclaimers.json` consistent with the "bespeaks caution" doctrine for penny-stock issuers (PSLRA safe harbor unavailable).
-- Sub-penny price formatter (4 decimals) with rounding footnote for Tier 3 widget output.
-- Photo normalization pipeline producing canonical manifest filenames as JPG + WebP companions.
-- `netlify.toml` security headers (HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy) and redirects (`www` → apex 301, `/news-releases/*` → `/#ir` 301 catch-all for legacy backlinks).
-- `robots.txt`, `sitemap.xml`, `thank-you.html`, `404.html`.
-- Netlify Forms for IR inquiries and partnerships (honeypot + thank-you redirect).
-- `:focus-visible` styling, skip-to-main link, semantic landmarks, `prefers-reduced-motion` support.
-- JSON-LD `Organization` schema in `<head>`.
-- README with deploy instructions, env var reference, content-update workflow, and aggregated TODOs blocking public launch.
+- **Premium typography**: Fraunces (display, serif) for headings, Inter (body)
+  for prose. Refined character alternates via `font-feature-settings: "ss01", "cv11"`.
+- **Navy / cream / oxblood palette**: replaces flat blue accent system.
+  Cream (`#F8F4ED`) for alternating section backgrounds, oxblood (`#8B2635`)
+  for primary accent.
+- **Ken Burns hero**: 1989 family clinic photo as background with slow 32-second
+  zoom (scale 1.00 → 1.08), navy gradient overlay, subtle SVG film-grain noise,
+  `prefers-reduced-motion` respected.
+- **Photo treatments**:
+  - Marvin Posey 1950s: 88% grayscale + 1.06 contrast + film grain
+  - 1989 Moore family clinic: 22% sepia + 1.08 saturation
+  - 2016 family listing: subtle radial vignette
+  - Matt at Nasdaq 2021: bottom-up gradient overlay for caption legibility
+- **Microinteractions**: card hover lifts (-2px translateY + shadow upgrade),
+  external-link underline animations, oxblood form input focus glow.
+- **Skeleton loaders**: shimmer animation while TradingView mounts populate.
+- **Custom hero quote card** (replaces TradingView Symbol Overview widget):
+  - Sub-penny price formatting ($0.0001 precision)
+  - Dollar + percent change with up/down arrow and color-coded directionality
+  - Stat grid: Volume, Day range, 52-week range, Market cap
+  - LIVE / MOCK / OFFLINE status pill (pulsing teal dot when live)
+  - Prominent "View live on OTC Markets →" link
+- **`/.netlify/functions/quote`**: server-side quote function with provider
+  fallback chain — TradingView scanner (primary) → Yahoo Finance → mock data
+- **`?tier=N` URL override**: visit `/?tier=1` to preview the old TradingView
+  Symbol Overview widget for comparison; default is now Tier 3 (custom card).
+- **Operator-supplied share count**: `SHARES_OUTSTANDING = 542_455_743` constant
+  in `quote.js` overrides TradingView's stale 183M figure. Market cap calculated
+  as `price × SHARES_OUTSTANDING`.
 
-### Known limitations / aggregated TODOs
+### Changed
 
-- Legal review of forward-looking-statements block required before public launch.
-- IR confirmation that "Where INND is today" language has been counsel-reviewed.
-- Email addresses (`ir@`, `partnerships@`, `info@innd.com`) need provisioning.
-- Open Graph image and favicon are placeholders.
-- Leadership section ships with Matt only; additional bios pending.
-- Three press release items (HearingAssist on Walgreens.com, Walmart Canada launch, $277K Walmart POs) shipped as a documented micro-note pending canonical wire URLs.
-- SEC EDGAR link is a search query (replace with CIK-keyed canonical URL once confirmed).
-- Annual report PDFs not yet present in `/assets/filings/`.
-- Polygon.io API key required before flipping to Tier 3.
-- Original (pre-rename) photo files left in `assets/photos/` — delete once canonical-named copies are verified rendering.
+- IR section reorder: "Filings & disclosures" block now appears first,
+  ahead of the chart. Correct priority for a public-markets IR page.
+- Conservative meta description / og:description / twitter:description copy
+  aligned with the conservative messaging in `data/hero.json` and
+  `data/current-chapter.json`.
+- Footer "Last updated" date dynamically reflects latest deploy.
+- Default body tier: `data-tier="3"` (was `"1"`).
+
+### Fixed
+
+- **Squashed TradingView chart**: explicit `height: 480px` on `.tv-chart`
+  container plus `height: 100%` chain through intermediate divs (autosize
+  needed explicit pixel height, not just min-height).
+- **Broken `<source srcset="*.webp">` lines**: removed; the .webp files were
+  never generated and the 404s were polluting the network tab.
+- **Google Fonts CSP block**: added `fonts.googleapis.com` to `style-src`
+  and `fonts.gstatic.com` to `font-src`. New visitors now see Fraunces/Inter
+  as designed instead of Times New Roman fallback.
+- **TradingView iframe CSP block**: added `*.tradingview-widget.com` to
+  `frame-src`. Console no longer throws CSP errors on every page load.
+
+### Security
+
+- Staging-only `<meta name="robots" content="noindex, nofollow">` on
+  `innd.netlify.app` prevents Google indexing while site is in pre-launch
+  staging. **Must be removed before pointing innd.com at this deploy.**
+
+### Pending (not in this release)
+
+- Custom OG image (1200×630 PNG: 1989 family clinic + INND wordmark + ticker line)
+- Securities counsel review of `data/disclaimers.json` and `data/current-chapter.json`
+- Press wall (silver-grayscale retailer logos: Walmart, CVS, RiteAid,
+  Walgreens, NASDAQ) — pending logo SVG/PNG sourcing
+- Live SEC filings feed via OTC Markets `/otcapi/company/sec-filings?symbol=INND`
+- DNS cutover from OTCHealthMart redirect → Netlify (after legal sign-off)
+
+---
+
+## [1.0.0] - 2026-05-04 (earlier in same session)
+
+Initial import.
+
+### Added
+
+- 24-file site bundle parsed and committed: HTML scaffold, CSS design system,
+  JS runtime with JSON content loaders, Netlify functions skeleton.
+- Conservative messaging applied to `data/hero.json` and `data/current-chapter.json`
+  (alignment for pending Ainnova / OTCHealth strategic alliance).
+- Four canonical Moore family photos placed: Marvin Posey 1950s,
+  1989 family clinic, 2016 family listing, Matt at Nasdaq 2021.
+- TradingView Tier 1 ticker widgets (Symbol Overview + Advanced Chart).
+- Netlify staging deploy at `innd.netlify.app`.
