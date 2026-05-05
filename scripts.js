@@ -292,7 +292,32 @@
 
   function formatSubPennyPrice(n) {
     if (typeof n !== 'number' || !isFinite(n)) return '—';
-    return n.toFixed(4);
+    // Sub-penny stocks: keep 4-6 decimals, trim trailing zeros, always show $0.0001 not $0
+    if (n === 0) return '0.0000';
+    const abs = Math.abs(n);
+    if (abs >= 1) return n.toFixed(2);
+    if (abs >= 0.01) return n.toFixed(4);
+    return n.toFixed(6).replace(/0+$/, '').replace(/\.$/, '.0');
+  }
+  function formatVolume(v) {
+    if (!v || !isFinite(v)) return '—';
+    if (v >= 1_000_000) return (v / 1_000_000).toFixed(2) + 'M';
+    if (v >= 1_000) return (v / 1_000).toFixed(1) + 'K';
+    return String(Math.round(v));
+  }
+  function formatMarketCap(mc) {
+    if (!mc || !isFinite(mc)) return '—';
+    if (mc >= 1_000_000_000) return '$' + (mc / 1_000_000_000).toFixed(2) + 'B';
+    if (mc >= 1_000_000) return '$' + (mc / 1_000_000).toFixed(2) + 'M';
+    if (mc >= 1_000) return '$' + (mc / 1_000).toFixed(1) + 'K';
+    return '$' + Math.round(mc);
+  }
+  function formatShares(s) {
+    if (!s || !isFinite(s)) return '—';
+    if (s >= 1_000_000_000) return (s / 1_000_000_000).toFixed(2) + 'B';
+    if (s >= 1_000_000) return (s / 1_000_000).toFixed(1) + 'M';
+    if (s >= 1_000) return (s / 1_000).toFixed(1) + 'K';
+    return String(Math.round(s));
   }
 
   async function renderCustomQuote(mountId) {
@@ -309,24 +334,48 @@
         </div>
         <p class="quote-price" id="quote-price">—</p>
         <p class="quote-change" id="quote-change"></p>
+        <dl class="quote-stats" id="quote-stats" aria-label="Stock at a glance">
+          <div><dt>Volume</dt><dd id="quote-volume">—</dd></div>
+          <div><dt>Day range</dt><dd id="quote-day-range">—</dd></div>
+          <div><dt>52-wk range</dt><dd id="quote-year-range">—</dd></div>
+          <div><dt>Market cap</dt><dd id="quote-market-cap">—</dd></div>
+        </dl>
         <p class="quote-meta" id="quote-meta">Fetching latest quote…</p>
+        <p class="quote-link"><a href="https://www.otcmarkets.com/stock/INND/overview" target="_blank" rel="noopener noreferrer">View live on OTC Markets →</a></p>
       </div>`;
     try {
       const r = await fetch('/.netlify/functions/quote');
       if (!r.ok) throw new Error(String(r.status));
       const q = await r.json();
-      $('#quote-price').textContent = formatSubPennyPrice(Number(q.price));
+
+      // Price (large)
+      $('#quote-price').textContent = '$' + formatSubPennyPrice(Number(q.price));
+
+      // Change line: arrow + dollar change + percent change
       const ch = Number(q.changePct ?? 0);
+      const chAbs = Number(q.change ?? 0);
       const dir = ch > 0 ? '▲' : ch < 0 ? '▼' : '—';
-      const el = $('#quote-change');
-      el.textContent = `${dir} ${Math.abs(ch).toFixed(2)}%`;
-      el.style.color = ch > 0 ? 'var(--color-accent-2)' : ch < 0 ? 'var(--color-danger)' : 'inherit';
-      const time = new Date(q.ts).toLocaleTimeString();
+      const sign = chAbs >= 0 ? '+' : '';
+      const chEl = $('#quote-change');
+      chEl.textContent = `${dir} ${sign}${formatSubPennyPrice(chAbs)} (${sign}${ch.toFixed(2)}%) Today`;
+      chEl.classList.remove('is-up', 'is-down', 'is-flat');
+      chEl.classList.add(ch > 0 ? 'is-up' : ch < 0 ? 'is-down' : 'is-flat');
+
+      // Stats grid
+      $('#quote-volume').textContent = formatVolume(Number(q.volume ?? 0));
+      $('#quote-day-range').textContent = `$${formatSubPennyPrice(q.dayLow)} – $${formatSubPennyPrice(q.dayHigh)}`;
+      $('#quote-year-range').textContent = `$${formatSubPennyPrice(q.yearLow)} – $${formatSubPennyPrice(q.yearHigh)}`;
+      $('#quote-market-cap').textContent = formatMarketCap(Number(q.marketCap ?? 0));
+
+      // Meta line
+      const time = new Date(q.ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
       $('#quote-meta').textContent = q.mock
-        ? 'Synthetic data shown (no API key set). Activate live by adding POLYGON_API_KEY in Netlify env vars.'
-        : `As of ${time} · Source: ${q.source} · Rounded to nearest 0.0001`;
-      // Status pill: pulse dot for live, static badge for mock
+        ? 'Synthetic data shown. Activate live by adding POLYGON_API_KEY in Netlify env vars.'
+        : `As of ${time} · Source: ${q.source === 'tradingview' ? 'TradingView' : q.source === 'yahoo' ? 'Yahoo Finance' : q.source} · Quotes delayed ~${q.delayedMinutes ?? 15} min`;
+
+      // Status pill
       const status = $('#quote-status');
+      status.classList.remove('is-mock', 'is-live', 'is-error');
       if (q.mock) {
         status.classList.add('is-mock');
         status.querySelector('.quote-status-text').textContent = 'MOCK';
@@ -334,11 +383,12 @@
         status.classList.add('is-live');
         status.querySelector('.quote-status-text').textContent = 'LIVE';
       }
-      // Mirror the price into ir-glance "Last" cell if present
+
+      // Mirror price into ir-glance "Last" cell if present
       const lastCell = document.querySelector('[data-glance="last"]');
-      if (lastCell) lastCell.textContent = `$${formatSubPennyPrice(Number(q.price))}`;
+      if (lastCell) lastCell.textContent = '$' + formatSubPennyPrice(Number(q.price));
     } catch (err) {
-      $('#quote-meta').textContent = 'Live data temporarily unavailable. See OTC Markets for execution-grade pricing.';
+      $('#quote-meta').textContent = 'Live data temporarily unavailable. View on OTC Markets for execution-grade pricing.';
       const status = $('#quote-status');
       if (status) {
         status.classList.add('is-error');

@@ -1,122 +1,163 @@
 /* ==========================================================================
    /.netlify/functions/quote
-   Returns a normalized INND quote object for the Tier 3 custom widget.
+   Returns a normalized INND quote for the custom hero ticker.
 
-   Source selection via QUOTE_PROVIDER env var:
-     "polygon" (default) | "finnhub" | "mock"
+   Source priority:
+     1. TradingView scanner (OTC:INND) — same feed their widgets use,
+        sub-penny precision, includes market cap and shares outstanding
+     2. Yahoo Finance (chart endpoint) — fallback, ~15 min delayed
+     3. Mock data — final fallback so the front-end never breaks
 
-   When the configured provider's API key is missing, automatically falls
-   back to deterministic mock data with mock:true flag set in the response.
-   This lets Tier 3 staging work end-to-end without a paid Polygon plan.
+   Override via QUOTE_PROVIDER env var: "tradingview"|"yahoo"|"mock"
    ========================================================================== */
 
 const SYMBOL = 'INND';
-const CACHE_SECONDS = 10;
+const TV_SYMBOL = 'OTC:INND';
+const CACHE_SECONDS = 30;
+const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 exports.handler = async () => {
-  const provider = (process.env.QUOTE_PROVIDER || 'polygon').toLowerCase();
+  const provider = (process.env.QUOTE_PROVIDER || 'tradingview').toLowerCase();
+  if (provider === 'mock') return ok(buildMock('explicit-mock'));
 
-  // Explicit mock mode
-  if (provider === 'mock') {
-    return ok(buildMock('explicit-mock'));
+  // Primary: TradingView (unless explicitly forced to Yahoo)
+  if (provider === 'tradingview' || provider === 'auto') {
+    try {
+      return ok(await fetchTradingView());
+    } catch (err) {
+      console.error('TradingView fetch failed:', err.message);
+      // Fall through to Yahoo
+    }
   }
 
+  // Yahoo (explicit or fallback)
   try {
-    let quote;
-    if (provider === 'finnhub') {
-      if (!process.env.FINNHUB_API_KEY) return ok(buildMock('finnhub-no-key'));
-      quote = await fetchFinnhub();
-    } else {
-      if (!process.env.POLYGON_API_KEY) return ok(buildMock('polygon-no-key'));
-      quote = await fetchPolygon();
-    }
-    return ok(quote);
+    return ok(await fetchYahoo());
   } catch (err) {
-    // On upstream API failure, return mock with the error noted
-    return ok(buildMock(`error: ${String(err && err.message || err)}`));
+    return ok(buildMock(`all-providers-failed: ${err.message}`));
   }
 };
 
 // ---------------------------------------------------------------------------
-// Polygon.io adapter (recommended primary for sub-penny OTC).
+// TradingView scanner (unofficial; same data feed their public widgets use)
 // ---------------------------------------------------------------------------
-async function fetchPolygon() {
-  const key = process.env.POLYGON_API_KEY;
-  const url = `https://api.polygon.io/v2/aggs/ticker/${SYMBOL}/prev?adjusted=true&apiKey=${encodeURIComponent(key)}`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`Polygon ${r.status}`);
+async function fetchTradingView() {
+  const fields = [
+    'name', 'description', 'exchange',
+    'close', 'change', 'change_abs',
+    'open', 'high', 'low', 'volume', 'VWAP',
+    'price_52_week_high', 'price_52_week_low',
+    'market_cap_basic', 'total_shares_outstanding',
+    'update_mode', 'timezone'
+  ].join(',');
+  const url = `https://scanner.tradingview.com/symbol?symbol=${encodeURIComponent(TV_SYMBOL)}&fields=${fields}`;
+  const r = await fetch(url, {
+    headers: {
+      'User-Agent': BROWSER_UA,
+      'Accept': 'application/json',
+      'Origin': 'https://www.tradingview.com',
+      'Referer': 'https://www.tradingview.com/'
+    }
+  });
+  if (!r.ok) throw new Error(`TradingView ${r.status}`);
+  const d = await r.json();
+
+  const price = Number(d.close);
+  const changeAbs = Number(d.change_abs ?? 0);
+  const changePct = Number(d.change ?? 0);
+  // delayed_streaming_900 means 900-second (15-min) delay
+  const delayedMinutes = String(d.update_mode || '').includes('900') ? 15 : 15;
+
+  return {
+    symbol: SYMBOL,
+    name: d.description || 'InnerScope Hearing Technologies, Inc.',
+    exchange: d.exchange || 'OTC Markets',
+    price: roundSubPenny(price),
+    change: roundSubPenny(changeAbs),
+    changePct: Number(changePct.toFixed(2)),
+    open: roundSubPenny(Number(d.open ?? price)),
+    dayHigh: roundSubPenny(Number(d.high ?? price)),
+    dayLow: roundSubPenny(Number(d.low ?? price)),
+    yearHigh: roundSubPenny(Number(d.price_52_week_high ?? price)),
+    yearLow: roundSubPenny(Number(d.price_52_week_low ?? price)),
+    volume: Number(d.volume ?? 0),
+    vwap: roundSubPenny(Number(d.VWAP ?? price)),
+    marketCap: Number(d.market_cap_basic ?? 0),
+    sharesOutstanding: Number(d.total_shares_outstanding ?? 0),
+    ts: new Date().toISOString(),
+    source: 'tradingview',
+    delayedMinutes,
+    mock: false
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Yahoo Finance v8 chart endpoint (fallback)
+// ---------------------------------------------------------------------------
+async function fetchYahoo() {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${SYMBOL}?interval=1d&range=5d`;
+  const r = await fetch(url, { headers: { 'User-Agent': BROWSER_UA } });
+  if (!r.ok) throw new Error(`Yahoo ${r.status}`);
   const data = await r.json();
-  const bar = data?.results?.[0];
-  if (!bar) throw new Error('Polygon: empty result');
-
-  const price = Number(bar.c);
-  const open = Number(bar.o);
-  const change = price - open;
-  const changePct = open ? (change / open) * 100 : 0;
-
+  const result = data?.chart?.result?.[0];
+  if (!result) throw new Error('Yahoo: empty result');
+  const meta = result.meta || {};
+  const price = Number(meta.regularMarketPrice);
+  const prevClose = Number(meta.chartPreviousClose);
+  const change = price - prevClose;
+  const changePct = prevClose ? (change / prevClose) * 100 : 0;
   return {
     symbol: SYMBOL,
-    price: round4(price),
-    change: round4(change),
+    name: meta.longName || 'InnerScope Hearing Technologies, Inc.',
+    exchange: meta.fullExchangeName || 'OTC Markets',
+    price: roundSubPenny(price),
+    change: roundSubPenny(change),
     changePct: Number(changePct.toFixed(2)),
-    volume: Number(bar.v ?? 0),
-    ts: new Date(bar.t || Date.now()).toISOString(),
-    source: 'polygon',
+    open: roundSubPenny(prevClose),
+    dayHigh: roundSubPenny(Number(meta.regularMarketDayHigh ?? price)),
+    dayLow: roundSubPenny(Number(meta.regularMarketDayLow ?? price)),
+    yearHigh: roundSubPenny(Number(meta.fiftyTwoWeekHigh ?? price)),
+    yearLow: roundSubPenny(Number(meta.fiftyTwoWeekLow ?? price)),
+    volume: Number(meta.regularMarketVolume ?? 0),
+    vwap: 0,
+    marketCap: 0,
+    sharesOutstanding: 0,
+    ts: new Date((meta.regularMarketTime || Math.floor(Date.now()/1000)) * 1000).toISOString(),
+    source: 'yahoo',
+    delayedMinutes: 15,
     mock: false
   };
 }
 
 // ---------------------------------------------------------------------------
-// Finnhub adapter (free tier — staging only, OTC sub-penny coverage unreliable).
-// ---------------------------------------------------------------------------
-async function fetchFinnhub() {
-  const key = process.env.FINNHUB_API_KEY;
-  const url = `https://finnhub.io/api/v1/quote?symbol=${SYMBOL}&token=${encodeURIComponent(key)}`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`Finnhub ${r.status}`);
-  const q = await r.json();
-
-  const price = Number(q.c);
-  const change = Number(q.d ?? 0);
-  const changePct = Number(q.dp ?? 0);
-
-  return {
-    symbol: SYMBOL,
-    price: round4(price),
-    change: round4(change),
-    changePct: Number(changePct.toFixed(2)),
-    volume: 0,
-    ts: new Date((q.t || Math.floor(Date.now() / 1000)) * 1000).toISOString(),
-    source: 'finnhub',
-    mock: false
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Mock data generator. Deterministic-ish so each request shows realistic
-// micro-fluctuations without being wildly different across reloads.
-// Sub-penny INND-style: price hovers around $0.0040 with tiny daily moves.
+// Mock generator (time-bucketed, ~$0.0004 hovering)
 // ---------------------------------------------------------------------------
 function buildMock(reason) {
-  const base = 0.0040;
-  // Use a slow time-bucketed random walk so reloads within a minute show
-  // similar prices (no whiplash on staging).
+  const base = 0.0004;
   const minuteBucket = Math.floor(Date.now() / 60_000);
   const seed = (minuteBucket * 9301 + 49297) % 233280;
-  const noise = (seed / 233280 - 0.5) * 0.0008;  // +/- 0.0004
-  const price = round4(base + noise);
-  const open = round4(base);
-  const change = round4(price - open);
-  const changePct = open ? Number(((change / open) * 100).toFixed(2)) : 0;
-
+  const noise = (seed / 233280 - 0.5) * 0.0001;
+  const price = roundSubPenny(base + noise);
+  const prevClose = base;
+  const change = roundSubPenny(price - prevClose);
+  const changePct = prevClose ? Number(((change / prevClose) * 100).toFixed(2)) : 0;
   return {
     symbol: SYMBOL,
-    price,
-    change,
-    changePct,
-    volume: 125_000 + (seed % 50_000),
+    name: 'InnerScope Hearing Technologies, Inc.',
+    exchange: 'OTC Markets (mock)',
+    price, change, changePct,
+    open: prevClose,
+    dayHigh: roundSubPenny(price + 0.0001),
+    dayLow:  roundSubPenny(price - 0.0001),
+    yearHigh: 0.009,
+    yearLow:  0.0003,
+    volume: 25_000_000 + (seed % 30_000_000),
+    vwap: price,
+    marketCap: 75_000,
+    sharesOutstanding: 183_080_000,
     ts: new Date().toISOString(),
     source: 'mock',
+    delayedMinutes: 0,
     mock: true,
     mock_reason: reason
   };
@@ -125,12 +166,11 @@ function buildMock(reason) {
 // ---------------------------------------------------------------------------
 // helpers
 // ---------------------------------------------------------------------------
-
-function round4(n) {
+// Round to 6 decimals for sub-penny stocks but trim trailing zeros to 4 for display
+function roundSubPenny(n) {
   if (typeof n !== 'number' || !isFinite(n)) return 0;
-  return Math.round(n * 10000) / 10000;
+  return Math.round(n * 1_000_000) / 1_000_000;
 }
-
 function ok(body) {
   return {
     statusCode: 200,
