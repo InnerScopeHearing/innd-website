@@ -280,7 +280,18 @@ p:last-child { margin-bottom: 0; }
   padding: 16px;
 }
 .tv-widget-mount { width: 100%; min-height: 220px; }
-.tv-widget-mount.tv-chart { min-height: 480px; }
+.tv-widget-mount.tv-chart {
+  min-height: 480px;
+  height: 480px;  /* TradingView autosize requires explicit pixel height on parent */
+}
+/* Make sure TradingView's intermediate divs fill the chart-mount fully so the
+   iframe doesn't collapse to its default ~120px height. */
+.tv-widget-mount.tv-chart .tradingview-widget-container,
+.tv-widget-mount.tv-chart .tradingview-widget-container__widget,
+.tv-widget-mount.tv-chart iframe {
+  height: 100% !important;
+  width: 100%;
+}
 .quote-disclosure {
   font-size: 0.78rem; color: rgba(248, 250, 252, 0.6); margin: 10px 4px 0;
 }
