@@ -10,7 +10,16 @@
   const $  = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const QUOTE_TIER = (window.INND_QUOTE_TIER ?? Number(document.body.dataset.tier ?? 1));
+  // Quote-widget tier resolution. Order of precedence:
+  //   1. URL query param ?tier=N    (handy for live preview without redeploy)
+  //   2. window.INND_QUOTE_TIER     (set before scripts.js loads)
+  //   3. <body data-tier="N">       (default; controls the published tier)
+  const QUOTE_TIER = (() => {
+    const fromUrl = Number(new URLSearchParams(location.search).get('tier'));
+    if (fromUrl === 1 || fromUrl === 2 || fromUrl === 3) return fromUrl;
+    if (window.INND_QUOTE_TIER) return Number(window.INND_QUOTE_TIER);
+    return Number(document.body.dataset.tier ?? 1);
+  })();
 
   // ---------- footer dynamic bits ----------
   const yearEl = $('#year');
