@@ -14,6 +14,18 @@
 const SYMBOL = 'INND';
 const TV_SYMBOL = 'OTC:INND';
 const CACHE_SECONDS = 30;
+
+// ---------------------------------------------------------------------------
+// Operator-supplied authoritative share count.
+// TradingView's total_shares_outstanding for OTC:INND is stale (returns
+// 183,080,000 as of 2026-05-04), so we ignore that field and compute market
+// cap from this number instead. Update this constant when the issuer's
+// outstanding share count changes (e.g. after a reverse split, share buyback,
+// or new issuance) and re-deploy.
+//
+// Source: company books, confirmed by Matt Moore (CEO) on 2026-05-04.
+// ---------------------------------------------------------------------------
+const SHARES_OUTSTANDING = 542_455_743;
 const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 exports.handler = async () => {
@@ -83,7 +95,9 @@ async function fetchTradingView() {
     volume: Number(d.volume ?? 0),
     vwap: roundSubPenny(Number(d.VWAP ?? price)),
     marketCap: Number(d.market_cap_basic ?? 0),
-    sharesOutstanding: Number(d.total_shares_outstanding ?? 0),
+    // Override market cap with operator-supplied share count (TradingView's is stale)
+    marketCap: roundSubPenny(price) * SHARES_OUTSTANDING,
+    sharesOutstanding: SHARES_OUTSTANDING,
     ts: new Date().toISOString(),
     source: 'tradingview',
     delayedMinutes,
@@ -120,8 +134,8 @@ async function fetchYahoo() {
     yearLow: roundSubPenny(Number(meta.fiftyTwoWeekLow ?? price)),
     volume: Number(meta.regularMarketVolume ?? 0),
     vwap: 0,
-    marketCap: 0,
-    sharesOutstanding: 0,
+    marketCap: roundSubPenny(price) * SHARES_OUTSTANDING,
+    sharesOutstanding: SHARES_OUTSTANDING,
     ts: new Date((meta.regularMarketTime || Math.floor(Date.now()/1000)) * 1000).toISOString(),
     source: 'yahoo',
     delayedMinutes: 15,
@@ -153,8 +167,8 @@ function buildMock(reason) {
     yearLow:  0.0003,
     volume: 25_000_000 + (seed % 30_000_000),
     vwap: price,
-    marketCap: 75_000,
-    sharesOutstanding: 183_080_000,
+    marketCap: roundSubPenny(price) * SHARES_OUTSTANDING,
+    sharesOutstanding: SHARES_OUTSTANDING,
     ts: new Date().toISOString(),
     source: 'mock',
     delayedMinutes: 0,
