@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.0] - 2026-05-21 (staging)
+
+The "shareholder engagement" release. Adds a forward-looking vision section,
+prominent OTCHealthMart promotion, social links, and a shareholder-updates
+signup that issues a personalized $50 OTCHealthMart welcome credit via an
+n8n + Customer.io + Shopify pipeline.
+
+### Added
+- What's Next vision section (#whats-next): pharmacy-channel thesis, DTC growth,
+  teleaudiology, transparent shareholder community. Forward-looking, disclaimered.
+- Shareholder Updates section (#shareholder-updates): name + email signup posting
+  to /.netlify/functions/signup, $50 OTCHealthMart welcome-credit offer (funded by
+  OTCHealth Inc.), Follow-INND links (OTCHealthMart, @inndstock on X, CEO LinkedIn).
+- OTCHealthMart hero CTA.
+- /.netlify/functions/signup: validates + forwards signup to the n8n shareholder
+  webhook (DARK until N8N_SHAREHOLDER_WEBHOOK env var is set).
+
+### Pending (not yet live)
+- n8n workflow: CIO upsert + "INND Shareholder List" segment + Shopify $50 unique
+  code generation + welcome-event fire.
+- Customer.io welcome campaign with personalized credit-code merge field.
+- CEO LinkedIn URL (placeholder in #shareholder-updates).
+
+---
+
 ## [1.1.0] - 2026-05-04
 
 The "design polish + custom hero ticker" release. Major visual transformation

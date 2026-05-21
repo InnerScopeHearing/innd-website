@@ -444,3 +444,35 @@
     });
   });
 })();
+
+/* ===== Shareholder updates signup (posts to /.netlify/functions/signup) ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('shareholder-signup-form');
+  if (!form) return;
+  const status = form.querySelector('[data-signup-status]');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (status) status.textContent = 'Submitting...';
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) btn.disabled = true;
+    const payload = {
+      first_name: form.first_name.value.trim(),
+      last_name: form.last_name.value.trim(),
+      email: form.email.value.trim(),
+      consent: form.consent.checked,
+      company: form.company ? form.company.value : ''
+    };
+    try {
+      const r = await fetch('/.netlify/functions/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!r.ok) throw new Error('status ' + r.status);
+      form.innerHTML = '<p class="form-status">Thank you for joining. Check your email shortly for your personalized $50 OTCHealthMart credit code.</p>';
+    } catch (err) {
+      if (status) status.textContent = 'Something went wrong. Please try again, or email ir@innd.com.';
+      if (btn) btn.disabled = false;
+    }
+  });
+});
