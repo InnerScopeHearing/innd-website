@@ -81,6 +81,30 @@
     }
   }
 
+  // ---------- ABOUT US ----------
+  async function renderAbout() {
+    const d = await loadJSON('/data/about.json');
+    if (!d) return;
+    setText('[data-about="eyebrow"]', d.eyebrow);
+    setText('[data-about="heading"]', d.heading);
+    const prose = $('[data-about="paragraphs"]');
+    if (prose && Array.isArray(d.paragraphs)) {
+      prose.innerHTML = d.paragraphs.map(p => `<p>${escapeHTML(p)}</p>`).join('');
+    }
+  }
+
+  // ---------- TRACK RECORD ----------
+  async function renderTrackRecord() {
+    const d = await loadJSON('/data/track-record.json');
+    if (!d) return;
+    setText('[data-track="eyebrow"]', d.eyebrow);
+    setText('[data-track="heading"]', d.heading);
+    const list = $('[data-track="items"]');
+    if (list && Array.isArray(d.items)) {
+      list.innerHTML = d.items.map(i => `<li>${escapeHTML(i)}</li>`).join('');
+    }
+  }
+
   // ---------- TIMELINE ----------
   async function renderTimeline() {
     const d = await loadJSON('/data/timeline.json');
@@ -430,6 +454,8 @@
     Promise.all([
       renderHero(),
       renderLegacy(),
+      renderAbout(),
+      renderTrackRecord(),
       renderTimeline(),
       renderCurrent(),
       renderBrands(),

@@ -963,3 +963,36 @@ p:last-child { margin-bottom: 0; }
   html { scroll-behavior: auto; }
   [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
+
+/* ===== About Us prose + Track Record list (added 2026-05-21) ===== */
+.about-prose { max-width: 820px; }
+
+.track-record-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px 36px;
+  max-width: 960px;
+}
+@media (min-width: 760px) {
+  .track-record-list { grid-template-columns: 1fr 1fr; }
+}
+.track-record-list li {
+  position: relative;
+  padding-left: 30px;
+  font-size: 1.02em;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.track-record-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.42em;
+  width: 13px;
+  height: 7px;
+  border-left: 2.5px solid var(--color-accent);
+  border-bottom: 2.5px solid var(--color-accent);
+  transform: rotate(-45deg);
+}

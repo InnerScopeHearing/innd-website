@@ -4,7 +4,7 @@
   "intro": "InnerScope's leadership traces directly to the family hearing-care practice that started in the 1950s. The clinic-floor instinct still shapes how the company chooses what to build, what to ship, and which partnerships to enter.",
   "hero_photo": {
     "src": "03-moore-family-2016-listing",
-    "alt": "Matthew Moore, Mark Moore, and Kim Moore — InnerScope Hearing Technologies leadership — at the time of the company's public-market debut.",
+    "alt": "Matthew Moore, Mark Moore, and Kim Moore, InnerScope Hearing Technologies leadership, at the time of the company's public-market debut.",
     "caption": "Matthew, Mark, and Kim Moore at the time InnerScope Hearing Technologies first entered the public markets.",
     "width": 1200,
     "height": 682
@@ -12,8 +12,20 @@
   "leaders": [
     {
       "name": "Matthew Moore",
-      "title": "President & Chief Executive Officer",
-      "bio": "Matt has led InnerScope as President and CEO for more than a decade. Under his leadership the company completed the iHEAR Medical and Hearing Assist II LLC acquisitions in 2021, scaled net revenue from roughly $166K in 2020 to $15.28M in 2022 (with $5.58M net profit at a ~36% EBT margin), oversaw the iHEAR Matrix rollout into 4,218 Walmart stores in 2023, and structured InnerScope's 2025 entry into the Ainnova / OTCHealth strategic alliance. His operating perspective is grounded in the family's long history in hearing care, combined with a capital-markets and deal-making mindset.",
+      "title": "Co-Founder and Chief Executive Officer",
+      "bio": "A third-generation hearing health professional, Matthew grew up in the family business and joined as Chief Marketing Officer in 2006, leading patient acquisition and brand across a network of more than 70 clinics. He founded InnerScope in 2012 and has driven its pivot from clinical operations into retail and direct-to-consumer hearing care, building distribution across major national retailers and thousands of pharmacy and grocery locations. He is an active voice on the future of accessible, pharmacy-based hearing care.",
+      "photo": null
+    },
+    {
+      "name": "Kimberly Moore",
+      "title": "Co-Founder and Chief Financial Officer",
+      "bio": "Kimberly has spent more than 50 years in hearing health, having learned the business from her father beginning around age eight. A Licensed Hearing Instrument Specialist, she served as Chief Financial Officer of the family clinic network for nearly three decades, managing the finances of more than 70 locations across two states and overseeing multiple clinic sales to global manufacturers. She is among the longest-tenured executives in the U.S. hearing industry and serves as Chief Executive of OTCHealth Inc.",
+      "photo": null
+    },
+    {
+      "name": "Mark Moore",
+      "title": "Co-Founder, Chairman and Chief Strategy Officer",
+      "bio": "Mark co-founded the family hearing enterprise in 1987 and led it for 29 years, growing it from a single clinic into the second-largest hearing aid provider in the Sacramento Valley. He developed and commercialized proprietary brands and programs, including a private-label hearing aid line which was licensed to Oticon, ReSound, and Widex, an aural rehabilitation program, and hearing-focused nutritional and tinnitus products. He brings deep expertise in practice management, private-label branding, and product development, and serves as Chief Operating Officer of OTCHealth Inc.",
       "photo": null
     }
   ],
