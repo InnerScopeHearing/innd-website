@@ -1,5 +1,5 @@
 /* ==========================================================================
-   INND.com — runtime
+   INND.com runtime
    - JSON content loaders
    - smooth scroll polish + scroll-reveal
    - quote-widget tier switcher (Tier 1 default)
@@ -184,19 +184,21 @@
     }
   }
 
-  // ---------- FINANCIAL HIGHLIGHTS ----------
-  async function renderFinancials() {
-    const data = await loadJSON('/data/financial-highlights.json');
-    if (!data) return;
-    const grid = $('[data-financials="cards"]');
-    if (grid && Array.isArray(data)) {
-      grid.innerHTML = data.map(c => `
-        <div class="metric-card">
-          <p class="metric-label">${escapeHTML(c.label)}</p>
-          <p class="metric-value">${escapeHTML(c.value)}</p>
-          <p class="metric-context">${escapeHTML(c.context)}</p>
-          <p class="metric-footnote">${escapeHTML(c.footnote)}</p>
-        </div>`).join('');
+  // ---------- BUSINESS HIGHLIGHTS ----------
+  async function renderBusinessHighlights() {
+    const d = await loadJSON('/data/business-highlights.json');
+    if (!d) return;
+    setText('[data-highlights="eyebrow"]', d.eyebrow);
+    setText('[data-highlights="heading"]', d.heading);
+    setText('[data-highlights="intro"]', d.intro);
+    const grid = $('[data-highlights="items"]');
+    if (grid && Array.isArray(d.items)) {
+      grid.innerHTML = d.items.map(it => `
+        <article class="highlight-card">
+          ${it.image ? `<img class="highlight-img" src="/assets/photos/${escapeHTML(it.image)}.jpg" alt="${escapeHTML(it.image_alt || '')}" loading="lazy" decoding="async">` : ''}
+          <h3>${escapeHTML(it.title)}</h3>
+          <p>${escapeHTML(it.body)}</p>
+        </article>`).join('');
     }
   }
 
@@ -312,10 +314,10 @@
     wrap.appendChild(script);
   }
 
-  // ---------- Tier 3 custom widget (skeleton — wired but inactive at tier 1) ----------
+  // ---------- Tier 3 custom widget (skeleton, wired but inactive at tier 1) ----------
 
   function formatSubPennyPrice(n) {
-    if (typeof n !== 'number' || !isFinite(n)) return '—';
+    if (typeof n !== 'number' || !isFinite(n)) return '-';
     // Sub-penny stocks: keep 4-6 decimals, trim trailing zeros, always show $0.0001 not $0
     if (n === 0) return '0.0000';
     const abs = Math.abs(n);
@@ -324,20 +326,20 @@
     return n.toFixed(6).replace(/0+$/, '').replace(/\.$/, '.0');
   }
   function formatVolume(v) {
-    if (!v || !isFinite(v)) return '—';
+    if (!v || !isFinite(v)) return '-';
     if (v >= 1_000_000) return (v / 1_000_000).toFixed(2) + 'M';
     if (v >= 1_000) return (v / 1_000).toFixed(1) + 'K';
     return String(Math.round(v));
   }
   function formatMarketCap(mc) {
-    if (!mc || !isFinite(mc)) return '—';
+    if (!mc || !isFinite(mc)) return '-';
     if (mc >= 1_000_000_000) return '$' + (mc / 1_000_000_000).toFixed(2) + 'B';
     if (mc >= 1_000_000) return '$' + (mc / 1_000_000).toFixed(2) + 'M';
     if (mc >= 1_000) return '$' + (mc / 1_000).toFixed(1) + 'K';
     return '$' + Math.round(mc);
   }
   function formatShares(s) {
-    if (!s || !isFinite(s)) return '—';
+    if (!s || !isFinite(s)) return '-';
     if (s >= 1_000_000_000) return (s / 1_000_000_000).toFixed(2) + 'B';
     if (s >= 1_000_000) return (s / 1_000_000).toFixed(1) + 'M';
     if (s >= 1_000) return (s / 1_000).toFixed(1) + 'K';
@@ -356,13 +358,13 @@
             <span class="quote-status-text">Loading…</span>
           </span>
         </div>
-        <p class="quote-price" id="quote-price">—</p>
+        <p class="quote-price" id="quote-price">-</p>
         <p class="quote-change" id="quote-change"></p>
         <dl class="quote-stats" id="quote-stats" aria-label="Stock at a glance">
-          <div><dt>Volume</dt><dd id="quote-volume">—</dd></div>
-          <div><dt>Day range</dt><dd id="quote-day-range">—</dd></div>
-          <div><dt>52-wk range</dt><dd id="quote-year-range">—</dd></div>
-          <div><dt>Market cap</dt><dd id="quote-market-cap">—</dd></div>
+          <div><dt>Volume</dt><dd id="quote-volume">-</dd></div>
+          <div><dt>Day range</dt><dd id="quote-day-range">-</dd></div>
+          <div><dt>52-wk range</dt><dd id="quote-year-range">-</dd></div>
+          <div><dt>Market cap</dt><dd id="quote-market-cap">-</dd></div>
         </dl>
         <p class="quote-meta" id="quote-meta">Fetching latest quote…</p>
         <p class="quote-link"><a href="https://www.otcmarkets.com/stock/INND/overview" target="_blank" rel="noopener noreferrer">View live on OTC Markets →</a></p>
@@ -378,7 +380,7 @@
       // Change line: arrow + dollar change + percent change
       const ch = Number(q.changePct ?? 0);
       const chAbs = Number(q.change ?? 0);
-      const dir = ch > 0 ? '▲' : ch < 0 ? '▼' : '—';
+      const dir = ch > 0 ? '▲' : ch < 0 ? '▼' : '-';
       const sign = chAbs >= 0 ? '+' : '';
       const chEl = $('#quote-change');
       chEl.textContent = `${dir} ${sign}${formatSubPennyPrice(chAbs)} (${sign}${ch.toFixed(2)}%) Today`;
@@ -387,8 +389,8 @@
 
       // Stats grid
       $('#quote-volume').textContent = formatVolume(Number(q.volume ?? 0));
-      $('#quote-day-range').textContent = `$${formatSubPennyPrice(q.dayLow)} – $${formatSubPennyPrice(q.dayHigh)}`;
-      $('#quote-year-range').textContent = `$${formatSubPennyPrice(q.yearLow)} – $${formatSubPennyPrice(q.yearHigh)}`;
+      $('#quote-day-range').textContent = `$${formatSubPennyPrice(q.dayLow)} to $${formatSubPennyPrice(q.dayHigh)}`;
+      $('#quote-year-range').textContent = `$${formatSubPennyPrice(q.yearLow)} to $${formatSubPennyPrice(q.yearHigh)}`;
       $('#quote-market-cap').textContent = formatMarketCap(Number(q.marketCap ?? 0));
 
       // Meta line
@@ -460,7 +462,7 @@
       renderCurrent(),
       renderBrands(),
       renderLeadership(),
-      renderFinancials(),
+      renderBusinessHighlights(),
       renderPress(),
       renderContacts(),
       renderDisclaimers()
