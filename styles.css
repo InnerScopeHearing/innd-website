@@ -1023,3 +1023,32 @@ p:last-child { margin-bottom: 0; }
 }
 .highlight-card h3 { margin: 0 0 8px; }
 .highlight-card p { margin: 0; color: var(--color-text); }
+
+/* ===== Top utility bar: phone numbers (added 2026-05-21) ===== */
+.topbar {
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.9rem;
+}
+.topbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px 28px;
+  padding: 8px 0;
+}
+.topbar-phone {
+  color: #fff;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+.topbar-phone:hover { text-decoration: underline; }
+.topbar-label { opacity: 0.88; font-weight: 500; }
+.topbar-num { font-weight: 700; letter-spacing: 0.2px; }
+@media (max-width: 640px) {
+  .topbar-row { justify-content: center; gap: 4px 16px; font-size: 0.8rem; }
+}
+.contact-phone { font-weight: 600; }
