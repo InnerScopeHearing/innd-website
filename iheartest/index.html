@@ -108,6 +108,8 @@ section.teal-hero { background: linear-gradient(180deg, var(--teal-tint) 0%, var
 .phone-screen .screen-title { font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1.25; }
 .phone-screen .screen-sub { font-size: 13px; color: var(--body); line-height: 1.4; padding: 0 4px; }
 .phone-screen .screen-emoji { font-size: 36px; line-height: 1; }
+.phone-screen.shot { padding: 0; overflow: hidden; background: #0e1f24; }
+.phone-screen.shot img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
 
 /* ---- 3-up hero lockup ---- */
 .three-up { display: flex; justify-content: center; align-items: flex-end; gap: clamp(8px, 2vw, 16px); margin: 8px 0 48px; }
@@ -253,24 +255,9 @@ form .honeypot { position: absolute; left: -10000px; height: 0; width: 0; overfl
     <h1 id="hero-h1">Help us build a hearing app you'd actually use.</h1>
     <p class="lead">We are looking for 75 people to put iHEARtest, our free at-home hearing screening, through real-world use before we launch on the App Store. Your honest reactions help us ship something genuinely useful instead of just shippable.</p>
     <div class="three-up" aria-hidden="true">
-      <div class="phone-frame"><div class="phone-screen">
-        <div class="screen-emoji">🏠</div>
-        <div class="screen-label">v1.4.8</div>
-        <div class="screen-title">Home</div>
-        <div class="screen-sub">Hearing Number, history, family profiles</div>
-      </div></div>
-      <div class="phone-frame"><div class="phone-screen">
-        <div class="screen-emoji">🎧</div>
-        <div class="screen-label">v1.4.8</div>
-        <div class="screen-title">Hearing Test</div>
-        <div class="screen-sub">5 minutes. Headphones on, tap when you hear a tone.</div>
-      </div></div>
-      <div class="phone-frame"><div class="phone-screen">
-        <div class="screen-emoji">📊</div>
-        <div class="screen-label">v1.4.8</div>
-        <div class="screen-title">Results</div>
-        <div class="screen-sub">Your Hearing Number plus a plain-English breakdown</div>
-      </div></div>
+      <div class="phone-frame"><div class="phone-screen shot"><img src="/iheartest/assets/screen-simulator.webp" alt="iHEARtest hearing-loss simulator screen" width="640" height="1391"></div></div>
+      <div class="phone-frame"><div class="phone-screen shot"><img src="/iheartest/assets/screen-home.webp" alt="iHEARtest home screen with your Hearing Number" width="640" height="1391"></div></div>
+      <div class="phone-frame"><div class="phone-screen shot"><img src="/iheartest/assets/screen-tinnitus.webp" alt="iHEARtest tinnitus masking sounds screen" width="640" height="1391"></div></div>
     </div>
     <div class="hero-cta-row">
       <a href="#apply" class="btn btn-primary">Apply for the beta &nbsp;&rarr;</a>
