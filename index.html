@@ -42,6 +42,30 @@
 
 <a href="#main" class="skip-link">Skip to main content</a>
 
+<!-- iHEARtest beta promo bar (campaign: external beta, launches Jun 1 2026) -->
+<div class="promo-bar" id="iheartest-promo" role="region" aria-label="iHEARtest beta announcement">
+  <div class="container promo-bar-row">
+    <a class="promo-bar-link" href="/iheartest/">
+      <span class="promo-pill">New</span>
+      <span class="promo-text">iHEARtest beta is open. Apply for one of 75 tester spots.</span>
+      <span class="promo-cta">Apply &rarr;</span>
+    </a>
+    <button class="promo-close" type="button" id="iheartest-promo-close" aria-label="Dismiss announcement">&times;</button>
+  </div>
+</div>
+<script>
+(function () {
+  var bar = document.getElementById('iheartest-promo');
+  if (!bar) return;
+  try { if (localStorage.getItem('iheartest-promo-dismissed') === '1') bar.classList.add('is-dismissed'); } catch (e) {}
+  var btn = document.getElementById('iheartest-promo-close');
+  if (btn) btn.addEventListener('click', function () {
+    bar.classList.add('is-dismissed');
+    try { localStorage.setItem('iheartest-promo-dismissed', '1'); } catch (e) {}
+  });
+})();
+</script>
+
 <div class="topbar">
   <div class="container topbar-row">
     <a class="topbar-phone" href="tel:+18337880506"><span class="topbar-label">Investor Relations</span> <span class="topbar-num">(833) 788-0506</span></a>
@@ -60,6 +84,7 @@
       <a href="#about">About</a>
       <a href="#current">Today</a>
       <a href="#brands">Brands</a>
+      <a class="nav-iheartest" href="/iheartest/">iHEARtest <span class="nav-beta-tag">beta</span></a>
       <a href="#leadership">Leadership</a>
       <a href="#ir">Investors</a>
       <a href="#contact">Contact</a>

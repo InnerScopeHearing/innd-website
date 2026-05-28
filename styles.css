@@ -1052,3 +1052,22 @@ p:last-child { margin-bottom: 0; }
   .topbar-row { justify-content: center; gap: 4px 16px; font-size: 0.8rem; }
 }
 .contact-phone { font-weight: 600; }
+
+/* ---------- iHEARtest beta promo bar + nav link ---------- */
+.promo-bar { background: #2E7D8C; color: #fff; font-size: 0.9rem; }
+.promo-bar.is-dismissed { display: none; }
+.promo-bar-row { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 9px 0; position: relative; }
+.promo-bar-link { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; color: #fff; text-decoration: none; font-weight: 500; }
+.promo-bar-link:hover { text-decoration: none; }
+.promo-bar-link:hover .promo-cta { text-decoration: underline; }
+.promo-pill { background: rgba(255,255,255,0.22); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; }
+.promo-text { opacity: 0.97; }
+.promo-cta { font-weight: 700; white-space: nowrap; }
+.promo-close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: 0; color: #fff; opacity: 0.7; font-size: 1.35rem; line-height: 1; cursor: pointer; padding: 2px 8px; }
+.promo-close:hover { opacity: 1; }
+@media (max-width: 560px) {
+  .promo-bar-row { padding: 8px 38px 8px 12px; }
+  .promo-text { font-size: 0.82rem; }
+}
+.nav-iheartest { display: inline-flex; align-items: center; gap: 6px; }
+.nav-beta-tag { background: #2E7D8C; color: #fff; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 6px; border-radius: 999px; line-height: 1; }
