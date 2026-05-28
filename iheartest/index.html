@@ -800,7 +800,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!BETA_SIGNUP_WEBHOOK_URL) {
       showState("info",
         "<strong>Form not yet wired up.</strong> The webhook URL has not been configured yet. " +
-        "Email <a href=\"mailto:app@otchealthmart.com\">app@otchealthmart.com</a> and we'll get back to you.");
+        "Email <a href=\"mailto:care@otchealthmart.com\">care@otchealthmart.com</a> and we'll get back to you.");
       return;
     }
 
@@ -829,12 +829,12 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         showState("error",
           "Something went wrong on our end. Please try again in a minute, " +
-          "or email <a href=\"mailto:app@otchealthmart.com\">app@otchealthmart.com</a> with your application.");
+          "or email <a href=\"mailto:care@otchealthmart.com\">care@otchealthmart.com</a> with your application.");
       }
     } catch (err) {
       showState("error",
         "We couldn't reach the server. Please check your connection and try again, " +
-        "or email <a href=\"mailto:app@otchealthmart.com\">app@otchealthmart.com</a>.");
+        "or email <a href=\"mailto:care@otchealthmart.com\">care@otchealthmart.com</a>.");
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = "Apply for the beta &nbsp;&rarr;";
