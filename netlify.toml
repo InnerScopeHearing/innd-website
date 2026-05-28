@@ -24,7 +24,7 @@
     # CSP allows TradingView (Tier 1/2 widgets), OTC Markets (Tier 2 iframe),
     # Polygon and Finnhub (Tier 3 quote function CORS preflight),
     # and `'unsafe-inline'` for the TradingView embed bootstrap script.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://s3.tradingview.com https://*.tradingview.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.tradingview.com https://*.polygon.io https://*.finnhub.io; frame-src https://*.tradingview.com https://*.tradingview-widget.com https://www.otcmarkets.com; form-action 'self';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://s3.tradingview.com https://*.tradingview.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://otchealth.app.n8n.cloud https://*.tradingview.com https://*.polygon.io https://*.finnhub.io; frame-src https://*.tradingview.com https://*.tradingview-widget.com https://www.otcmarkets.com; form-action 'self';"
 
 # Long-cache static assets
 [[headers]]
