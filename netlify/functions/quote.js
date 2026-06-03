@@ -23,9 +23,9 @@ const CACHE_SECONDS = 30;
 // outstanding share count changes (e.g. after a reverse split, share buyback,
 // or new issuance) and re-deploy.
 //
-// Source: company books, confirmed by Matt Moore (CEO) on 2026-05-04.
+// Source: company books, confirmed by Matt Moore (CEO) on 2026-06-03.
 // ---------------------------------------------------------------------------
-const SHARES_OUTSTANDING = 542_455_743;
+const SHARES_OUTSTANDING = 889_823_171;
 const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 exports.handler = async () => {

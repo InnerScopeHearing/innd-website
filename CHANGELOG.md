@@ -66,7 +66,7 @@ TradingView feed used by OTC Markets widgets.
   fallback chain — TradingView scanner (primary) → Yahoo Finance → mock data
 - **`?tier=N` URL override**: visit `/?tier=1` to preview the old TradingView
   Symbol Overview widget for comparison; default is now Tier 3 (custom card).
-- **Operator-supplied share count**: `SHARES_OUTSTANDING = 542_455_743` constant
+- **Operator-supplied share count**: `SHARES_OUTSTANDING = 889_823_171` constant
   in `quote.js` overrides TradingView's stale 183M figure. Market cap calculated
   as `price × SHARES_OUTSTANDING`.
 
