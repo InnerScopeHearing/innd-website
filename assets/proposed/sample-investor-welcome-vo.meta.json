@@ -1,0 +1,10 @@
+{
+  "text": "Welcome to InnerScope Hearing Technologies, trading on the OTC market under the ticker INND. We are a family led company with three generations of experience in hearing care, from a single audiology practice in the 1950s to a public company today. Our brands reach people where they already shop, through our operating partner OTCHealth. In October 2025, we announced a strategic alliance tied to Ainnova Tech's proposed acquisition of OTCHealth, a transaction that remains active. This message contains forward looking statements. Please review the important disclaimers on this site before making any investment decision.",
+  "voice_id": "21m00Tcm4TlvDq8ikWAM",
+  "model": "eleven_v3",
+  "char_count": 623,
+  "brand_name": "Default",
+  "cost_estimate_usd": 0.18689999999999998,
+  "output": "/home/user/innd-website/assets/proposed/sample-investor-welcome-vo.mp3",
+  "generated_at": "2026-06-03T23:25:08.482Z"
+}
