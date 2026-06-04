@@ -1,0 +1,14 @@
+{
+  "prompt": "Brand colors: primary #0d9488, deep #0f766e. Illustration style: Flat geometric illustration, 2-3 color limit using brand palette, generous whitespace, no photorealism, soft edges, modern editorial feel. Style of Magoz meets Headspace's Christoph Niemann. Reference brands to mimic: Calm, Headspace, Mira, Linear. Avoid: stock photo silver-haired couple in wheat field; fake clinical iconography. A bright modern pharmacy retail aisle with a clean white and blue product display stand for small consumer health devices, soft realistic lighting, shallow depth of field, no readable text anywhere, no logos, no brand names, no people. Premium commercial photography style.",
+  "user_prompt": "A bright modern pharmacy retail aisle with a clean white and blue product display stand for small consumer health devices, soft realistic lighting, shallow depth of field, no readable text anywhere, no logos, no brand names, no people. Premium commercial photography style.",
+  "kind": "illustration",
+  "size": "1024x1024",
+  "model": "imagen4",
+  "quality": "high",
+  "variant": 1,
+  "brand_name": "Default",
+  "brand_source": "/root/.claude/skills/designer/brand-profiles/default.json",
+  "cost_estimate_usd": 0.04,
+  "output": "/home/user/innd-website/assets/proposed/mockup-retail-shelf.png",
+  "generated_at": "2026-06-04T00:18:30.870Z"
+}

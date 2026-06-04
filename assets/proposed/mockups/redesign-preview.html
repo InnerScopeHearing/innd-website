@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INND redesign mockups (proposal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+/* ===== mockup-only overlay. Not production. ===== */
+body { background: var(--color-bg-alt); }
+.mock-wrap { max-width: 1180px; margin: 0 auto; }
+.mock-label {
+  position: absolute; top: 16px; left: 16px; z-index: 5;
+  background: var(--color-accent); color: #fff;
+  font: 600 0.72rem/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 999px;
+}
+.mock-cap {
+  font: 500 0.85rem/1.4 var(--font-sans); color: var(--color-muted);
+  padding: 10px 24px 0;
+}
+
+/* ---- HERO ---- */
+.m-hero { position: relative; overflow: hidden; min-height: 560px; display: flex; align-items: center;
+  background-color: #0B1220; }
+.m-hero::before { content:""; position:absolute; inset:0;
+  background-image:url("/assets/photos/02-moore-family-clinic-1989.jpg");
+  background-size:cover; background-position:center 35%; opacity:0.5; }
+.m-hero::after { content:""; position:absolute; inset:0;
+  background: linear-gradient(105deg, rgba(11,18,32,0.94) 0%, rgba(11,18,32,0.72) 45%, rgba(11,18,32,0.45) 100%); }
+.m-hero-wave { position:absolute; left:-60px; bottom:-80px; width:520px; opacity:0.55; z-index:1; pointer-events:none; }
+.m-hero-grid { position:relative; z-index:2; display:grid; grid-template-columns: 1.3fr 0.9fr; gap:48px; align-items:center;
+  padding: 64px 48px; width:100%; }
+.m-hero .eyebrow { color: var(--color-accent-2); }
+.m-hero h1 { color:#fff; font-size: clamp(2rem,4vw,3.1rem); line-height:1.06; margin:.4rem 0 1rem; }
+.m-hero .subhead { color: rgba(248,250,252,.86); font-size:1.05rem; max-width:46ch; }
+.m-badges { display:flex; flex-wrap:wrap; gap:8px; list-style:none; padding:0; margin:1.4rem 0 1.6rem; }
+.m-badges li { color:#cbd5e1; border:1px solid rgba(255,255,255,.18); border-radius:999px; padding:6px 12px; font-size:.82rem; }
+.m-cta { display:flex; gap:12px; flex-wrap:wrap; }
+.m-cta a { display:inline-block; padding:12px 20px; border-radius:var(--radius-md); font-weight:600; font-size:.95rem; }
+.m-cta .p { background:var(--color-accent); color:#fff; }
+.m-cta .s { border:1px solid rgba(255,255,255,.35); color:#fff; }
+/* ticker card */
+.m-ticker { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:var(--radius-lg);
+  padding:22px; backdrop-filter: blur(4px); }
+.m-ticker .row { display:flex; justify-content:space-between; align-items:center; }
+.m-ticker .sym { color:#fff; font-weight:700; letter-spacing:.04em; }
+.m-ticker .live { display:inline-flex; align-items:center; gap:6px; color:#9fe7df; font-size:.72rem; letter-spacing:.1em; }
+.m-ticker .dot { width:8px; height:8px; border-radius:50%; background:var(--color-accent-2); box-shadow:0 0 0 0 rgba(15,181,168,.7); }
+.m-ticker .price { color:#fff; font:700 2.6rem/1 var(--font-display); margin:.5rem 0 .2rem; }
+.m-ticker .chg { color:#7ee0b8; font-weight:600; font-size:.95rem; }
+.m-ticker .stats { display:grid; grid-template-columns:1fr 1fr; gap:10px 18px; margin-top:16px; }
+.m-ticker .stats div { border-top:1px solid rgba(255,255,255,.12); padding-top:8px; }
+.m-ticker .stats dt { color:#94a3b8; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; }
+.m-ticker .stats dd { color:#e2e8f0; margin:2px 0 0; font-weight:600; font-size:.95rem; }
+.m-ticker .meta { color:#7c8aa0; font-size:.72rem; margin-top:14px; }
+
+/* ---- TRACK RECORD proof grid ---- */
+.m-proof { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.m-proof .card { background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg);
+  padding:28px 24px; box-shadow:var(--shadow-sm); text-align:left; }
+.m-proof .num { font:700 3rem/1 var(--font-display); color:var(--color-accent); }
+.m-proof .num .q { font-size:1.3rem; color:var(--color-muted); vertical-align:super; margin-right:2px; }
+.m-proof .lab { color:var(--color-text); font-weight:600; margin:.5rem 0 0; font-size:.98rem; }
+.m-proof .sub { color:var(--color-muted); font-size:.85rem; margin:.3rem 0 0; }
+
+/* ---- BUSINESS HIGHLIGHTS ---- */
+.m-high { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.m-high .card { background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg);
+  overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; }
+.m-high .ph { aspect-ratio:16/9; overflow:hidden; background:var(--color-bg-soft); }
+.m-high .ph img { width:100%; height:100%; object-fit:cover; display:block; }
+.m-high .ph.empty { display:flex; align-items:center; justify-content:center; color:var(--color-muted);
+  font-size:.85rem; background:repeating-linear-gradient(45deg,#f1ece2,#f1ece2 12px,#f6f1e8 12px,#f6f1e8 24px); }
+.m-high .body { padding:22px 24px; }
+.m-high h3 { margin:0 0 .4rem; font-size:1.15rem; }
+.m-high p { color:var(--color-muted); font-size:.92rem; margin:0; }
+
+/* ---- LEADERSHIP ---- */
+.m-lead { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.m-lead .card { background:#fff; border:1px solid var(--color-border); border-radius:var(--radius-lg);
+  padding:28px 24px; box-shadow:var(--shadow-sm); text-align:center; }
+.m-lead .ring { width:128px; height:128px; margin:0 auto 16px; border-radius:50%; overflow:hidden;
+  border:3px solid var(--color-accent-2); box-shadow:var(--shadow-sm); }
+.m-lead .ring img { width:100%; height:100%; object-fit:cover; display:block; }
+.m-lead .nm { font-weight:700; font-size:1.1rem; color:var(--color-text); }
+.m-lead .ti { color:var(--color-accent); font-size:.85rem; font-weight:600; margin:.2rem 0 .8rem; }
+.m-lead .bio { color:var(--color-muted); font-size:.86rem; line-height:1.5; text-align:left; }
+.m-note { color:var(--color-muted); font-size:.85rem; margin-top:18px; text-align:center; }
+
+/* ---- TIMELINE ---- */
+.m-tl { position:relative; padding-left:8px; }
+.m-tl ol { list-style:none; margin:0; padding:0; position:relative; }
+.m-tl ol::before { content:""; position:absolute; left:13px; top:6px; bottom:6px; width:2px;
+  background:linear-gradient(var(--color-accent-2), rgba(15,181,168,.15)); }
+.m-tl li { position:relative; padding:0 0 28px 48px; }
+.m-tl li::before { content:""; position:absolute; left:6px; top:4px; width:16px; height:16px; border-radius:50%;
+  background:#fff; border:3px solid var(--color-accent-2); box-shadow:0 0 0 4px rgba(15,181,168,.12); }
+.m-tl .yr { font-weight:700; color:var(--color-accent); text-transform:uppercase; letter-spacing:.05em; font-size:.8rem; }
+.m-tl .ti { font-weight:600; margin:.1rem 0; }
+.m-tl .su { color:var(--color-muted); font-size:.9rem; margin:0; max-width:62ch; }
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<section class="m-hero" id="m-hero">
+  <span class="mock-label">Proposal</span>
+  <img class="m-hero-wave" src="/assets/proposed/sample-hero-soundwave.png" alt="">
+  <div class="m-hero-grid">
+    <div>
+      <p class="eyebrow">InnerScope Hearing Technologies (OTC: INND)</p>
+      <h1>A family that has spent three generations building hearing care.</h1>
+      <p class="subhead">InnerScope traces its roots to Marvin Posey's California audiology practice in the 1950s. Today the Moore family continues that legacy as the company's majority owners and operators, building patiently, with a long view.</p>
+      <ul class="m-badges">
+        <li>OTC Hearing Technology</li><li>Public Company, INND (OTC)</li><li>Roseville, CA</li>
+      </ul>
+      <div class="m-cta"><a class="p" href="#">Our Story</a><a class="s" href="#">For Investors</a><a class="s" href="#">Shop OTCHealthMart</a></div>
+    </div>
+    <div class="m-ticker">
+      <div class="row"><span class="sym">INND</span><span class="live"><span class="dot"></span>LIVE</span></div>
+      <p class="price">$0.0014</p>
+      <p class="chg">&#9650; +0.0002 (+16.7%) Today</p>
+      <dl class="stats">
+        <div><dt>Volume</dt><dd>4.21M</dd></div>
+        <div><dt>Day range</dt><dd>$0.0011 to $0.0015</dd></div>
+        <div><dt>52-wk range</dt><dd>$0.0006 to $0.004</dd></div>
+        <div><dt>Market cap</dt><dd>$1.24M</dd></div>
+      </dl>
+      <p class="meta">Quotes delayed up to 15 minutes. Source: TradingView.</p>
+    </div>
+  </div>
+</section>
+<p class="mock-cap">Hero: faint brand sound wave motif layered over the existing family photo, plus a count-up on the ticker price and a slow pulse on the LIVE dot. Numbers shown are illustrative placeholders.</p>
+
+<!-- ===================== TRACK RECORD ===================== -->
+<section class="section section-light" id="m-track" style="position:relative;">
+  <span class="mock-label">Proposal</span>
+  <div class="container mock-wrap">
+    <header class="section-head"><p class="eyebrow">Track record</p><h2>Our track record</h2></header>
+    <div class="m-proof">
+      <div class="card"><p class="num">3</p><p class="lab">Generations in hearing health</p><p class="sub">More than 50 years</p></div>
+      <div class="card"><p class="num"><span class="q">70</span>+</p><p class="lab">Audiological clinics built and operated</p><p class="sub">Across California and Florida</p></div>
+      <div class="card"><p class="num">4,218</p><p class="lab">Walmart stores at the 2023 iHEAR Matrix launch</p><p class="sub">Nationwide OTC display</p></div>
+      <div class="card"><p class="num">~45<span class="q" style="font-size:1.3rem">K</span></p><p class="lab">Retail individual investors</p><p class="sub">Roughly 45,000 shareholders</p></div>
+    </div>
+  </div>
+</section>
+<p class="mock-cap">Track Record: the strongest proof points pulled out as a count-up stat grid. Qualifier words (more than, roughly) stay static so precision claims remain accurate.</p>
+
+<!-- ===================== BUSINESS HIGHLIGHTS ===================== -->
+<section class="section section-soft" id="m-high" style="position:relative;">
+  <span class="mock-label">Proposal</span>
+  <div class="container mock-wrap">
+    <header class="section-head"><p class="eyebrow">Business highlights</p><h2>Proof points from three generations of hearing-care operating expertise.</h2></header>
+    <div class="m-high">
+      <div class="card"><div class="ph"><img src="/assets/proposed/mockup-retail-shelf.png" alt=""></div>
+        <div class="body"><h3>HearingAssist on the Walmart shelf</h3><p>Sold through Walmart for years, with branded in-store displays across more than 750 Walmart locations, and distribution that expanded into CVS, Rite Aid, and Walgreens.</p></div></div>
+      <div class="card"><div class="ph"><img src="/assets/proposed/mockup-product-cropped.png" alt=""></div>
+        <div class="body"><h3>iHEAR Matrix in national retail</h3><p>iHEAR Matrix Rechargeable over-the-counter hearing aids launched into Walmart's nationwide over-the-counter hearing aid display in 4,218 stores in November 2023.</p></div></div>
+      <div class="card"><div class="ph empty">app screenshot reused from iHEARtest assets</div>
+        <div class="body"><h3>The iHEARtest at-home hearing screener</h3><p>An app-based, at-home hearing screening tool from the iHEAR technology base, part of the teleaudiology and remote-fitting infrastructure.</p></div></div>
+      <div class="card"><div class="ph empty">optional supporting visual</div>
+        <div class="body"><h3>Multi-retailer and pharmacy reach</h3><p>Across the iHEAR and HearingAssist brands, products have reached consumers through Walmart, CVS, Rite Aid, and Walgreens, alongside OTCHealthMart.com.</p></div></div>
+    </div>
+  </div>
+</section>
+<p class="mock-cap">Business Highlights: real imagery on the first two cards (generated samples). The remaining two show how lighter visuals or reused app screenshots would fill the grid.</p>
+
+<!-- ===================== LEADERSHIP ===================== -->
+<section class="section section-light" id="m-lead" style="position:relative;">
+  <span class="mock-label">Proposal</span>
+  <div class="container mock-wrap">
+    <header class="section-head"><p class="eyebrow">Leadership</p><h2>Family-rooted operating experience meets public-markets discipline.</h2></header>
+    <div class="m-lead">
+      <div class="card"><div class="ring"><img src="/assets/proposed/sample-leader-placeholder.png" alt=""></div>
+        <p class="nm">Matthew Moore</p><p class="ti">Co-Founder and Chief Executive Officer</p>
+        <p class="bio">Third-generation hearing health professional. Joined the family business in 2006, founded InnerScope in 2012, and led its pivot into retail and direct-to-consumer hearing care.</p></div>
+      <div class="card"><div class="ring"><img src="/assets/proposed/sample-leader-placeholder.png" alt=""></div>
+        <p class="nm">Kimberly Moore</p><p class="ti">Co-Founder and Chief Financial Officer</p>
+        <p class="bio">More than 50 years in hearing health. A Licensed Hearing Instrument Specialist who served as CFO of the family clinic network for nearly three decades. Chief Executive of OTCHealth Inc.</p></div>
+      <div class="card"><div class="ring"><img src="/assets/proposed/sample-leader-placeholder.png" alt=""></div>
+        <p class="nm">Mark Moore</p><p class="ti">Co-Founder, Chairman and Chief Strategy Officer</p>
+        <p class="bio">Co-founded the family hearing enterprise in 1987 and led it for 29 years. Deep expertise in practice management, private-label branding, and product development. COO of OTCHealth Inc.</p></div>
+    </div>
+    <p class="m-note">Placeholder avatars shown. Recommendation is real, operator-supplied headshots. Do not generate synthetic faces of named executives.</p>
+  </div>
+</section>
+<p class="mock-cap">Leadership: the empty photo slots filled with a branded faceless placeholder in a teal ring, so the cards read as intentional until real headshots arrive.</p>
+
+<!-- ===================== TIMELINE ===================== -->
+<section class="section section-soft" id="m-tl" style="position:relative;">
+  <span class="mock-label">Proposal</span>
+  <div class="container mock-wrap">
+    <header class="section-head"><p class="eyebrow">Growth timeline</p><h2>From founding practice to public-company platform.</h2></header>
+    <div class="m-tl">
+      <ol>
+        <li><p class="yr">1950s</p><p class="ti">Family hearing-care practice founded</p><p class="su">Marvin Posey opens a hearing-aid practice in Central California.</p></li>
+        <li><p class="yr">2017</p><p class="ti">InnerScope enters the public markets</p><p class="su">Family-rooted operating experience meets capital-markets infrastructure. Listed on OTC as INND.</p></li>
+        <li><p class="yr">2021</p><p class="ti">Expansion through acquisitions</p><p class="su">Acquires the assets of iHEAR Medical and the HearingAssist direct-to-consumer hearing aid brand.</p></li>
+        <li><p class="yr">2023</p><p class="ti">iHEAR Matrix lands in 4,218 Walmart stores</p><p class="su">Placed in Walmart's nationwide OTC hearing aid display.</p></li>
+        <li><p class="yr">2025</p><p class="ti">Strategic alliance with Ainnova / OTCHealth</p><p class="su">InnerScope joins the announced acquisition of OTCHealth Inc. by Ainnova Tech Inc., a transaction that remains active.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+<p class="mock-cap">Timeline: a connecting line and teal nodes that draw in as the reader scrolls, with each milestone fading up in sequence.</p>
+
+</body>
+</html>
