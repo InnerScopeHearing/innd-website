@@ -73,6 +73,8 @@ body { background: var(--color-bg-alt); }
   overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; }
 .m-high .ph { aspect-ratio:16/9; overflow:hidden; background:var(--color-bg-soft); }
 .m-high .ph img { width:100%; height:100%; object-fit:cover; display:block; }
+.m-high .ph.product { background:#fff; }
+.m-high .ph.product img { object-fit:contain; padding:6px; }
 .m-high .ph.empty { display:flex; align-items:center; justify-content:center; color:var(--color-muted);
   font-size:.85rem; background:repeating-linear-gradient(45deg,#f1ece2,#f1ece2 12px,#f6f1e8 12px,#f6f1e8 24px); }
 .m-high .body { padding:22px 24px; }
@@ -157,13 +159,13 @@ body { background: var(--color-bg-alt); }
   <div class="container mock-wrap">
     <header class="section-head"><p class="eyebrow">Business highlights</p><h2>Proof points from three generations of hearing-care operating expertise.</h2></header>
     <div class="m-high">
-      <div class="card"><div class="ph"><img src="/assets/proposed/mockup-retail-shelf.png" alt=""></div>
+      <div class="card"><div class="ph product"><img src="/assets/proposed/real/real-hearingassist-hero.jpg" alt="HearingAssist rechargeable behind-the-ear hearing aids on their charging base."></div>
         <div class="body"><h3>HearingAssist on the Walmart shelf</h3><p>Sold through Walmart for years, with branded in-store displays across more than 750 Walmart locations, and distribution that expanded into CVS, Rite Aid, and Walgreens.</p></div></div>
-      <div class="card"><div class="ph"><img src="/assets/proposed/mockup-product-cropped.png" alt=""></div>
+      <div class="card"><div class="ph product"><img src="/assets/proposed/real/real-matrix-pair.jpg" alt="iHEAR Matrix rechargeable over-the-counter hearing aids in their charging case."></div>
         <div class="body"><h3>iHEAR Matrix in national retail</h3><p>iHEAR Matrix Rechargeable over-the-counter hearing aids launched into Walmart's nationwide over-the-counter hearing aid display in 4,218 stores in November 2023.</p></div></div>
-      <div class="card"><div class="ph empty">app screenshot reused from iHEARtest assets</div>
+      <div class="card"><div class="ph"><img src="/iheartest/assets/screen-test.webp" alt="iHEARtest at-home hearing screening app."></div>
         <div class="body"><h3>The iHEARtest at-home hearing screener</h3><p>An app-based, at-home hearing screening tool from the iHEAR technology base, part of the teleaudiology and remote-fitting infrastructure.</p></div></div>
-      <div class="card"><div class="ph empty">optional supporting visual</div>
+      <div class="card"><div class="ph product"><img src="/assets/proposed/real/real-matrix-case.jpg" alt="iHEAR Matrix charging case, front view."></div>
         <div class="body"><h3>Multi-retailer and pharmacy reach</h3><p>Across the iHEAR and HearingAssist brands, products have reached consumers through Walmart, CVS, Rite Aid, and Walgreens, alongside OTCHealthMart.com.</p></div></div>
     </div>
   </div>
@@ -176,17 +178,17 @@ body { background: var(--color-bg-alt); }
   <div class="container mock-wrap">
     <header class="section-head"><p class="eyebrow">Leadership</p><h2>Family-rooted operating experience meets public-markets discipline.</h2></header>
     <div class="m-lead">
-      <div class="card"><div class="ring"><img src="/assets/proposed/sample-leader-placeholder.png" alt=""></div>
+      <div class="card"><div class="ring"><img src="/assets/proposed/real/headshot-matthew.png" alt="Matthew Moore"></div>
         <p class="nm">Matthew Moore</p><p class="ti">Co-Founder and Chief Executive Officer</p>
         <p class="bio">Third-generation hearing health professional. Joined the family business in 2006, founded InnerScope in 2012, and led its pivot into retail and direct-to-consumer hearing care.</p></div>
-      <div class="card"><div class="ring"><img src="/assets/proposed/sample-leader-placeholder.png" alt=""></div>
+      <div class="card"><div class="ring"><img src="/assets/proposed/real/headshot-kimberly.png" alt="Kimberly Moore"></div>
         <p class="nm">Kimberly Moore</p><p class="ti">Co-Founder and Chief Financial Officer</p>
         <p class="bio">More than 50 years in hearing health. A Licensed Hearing Instrument Specialist who served as CFO of the family clinic network for nearly three decades. Chief Executive of OTCHealth Inc.</p></div>
-      <div class="card"><div class="ring"><img src="/assets/proposed/sample-leader-placeholder.png" alt=""></div>
+      <div class="card"><div class="ring"><img src="/assets/proposed/real/headshot-mark.png" alt="Mark Moore"></div>
         <p class="nm">Mark Moore</p><p class="ti">Co-Founder, Chairman and Chief Strategy Officer</p>
         <p class="bio">Co-founded the family hearing enterprise in 1987 and led it for 29 years. Deep expertise in practice management, private-label branding, and product development. COO of OTCHealth Inc.</p></div>
     </div>
-    <p class="m-note">Placeholder avatars shown. Recommendation is real, operator-supplied headshots. Do not generate synthetic faces of named executives.</p>
+    <p class="m-note">Real headshots, cropped from the 2016 Moore family photo already in the repo. Rights-clean and verified left to right against the original.</p>
   </div>
 </section>
 <p class="mock-cap">Leadership: the empty photo slots filled with a branded faceless placeholder in a teal ring, so the cards read as intentional until real headshots arrive.</p>
