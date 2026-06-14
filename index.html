@@ -454,7 +454,7 @@
 
       <form name="ir-inquiry" class="contact-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
         <input type="hidden" name="form-name" value="ir-inquiry">
-        <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+        <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="grid-2">
           <label>Name <input type="text" name="name" required autocomplete="name"></label>
           <label>Organization <input type="text" name="organization" autocomplete="organization"></label>
@@ -481,7 +481,7 @@
     </header>
 
     <form id="shareholder-signup-form" class="contact-form" data-reveal>
-      <p class="hp"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <p class="hp" aria-hidden="true"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <div class="grid-2">
         <label>First name <input type="text" name="first_name" required autocomplete="given-name"></label>
         <label>Last name <input type="text" name="last_name" required autocomplete="family-name"></label>
@@ -533,7 +533,7 @@
 
     <form name="partnerships" class="contact-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html" data-reveal>
       <input type="hidden" name="form-name" value="partnerships">
-      <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
       <div class="grid-2">
         <label>Name <input type="text" name="name" required autocomplete="name"></label>
         <label>Organization <input type="text" name="organization" autocomplete="organization"></label>
