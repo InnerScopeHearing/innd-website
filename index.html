@@ -28,19 +28,55 @@
 <link rel="preload" as="image" href="/assets/photos/02-moore-family-clinic-1989.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "InnerScope Hearing Technologies, Inc.",
-  "tickerSymbol": "INND",
-  "url": "https://innd.com",
-  "address": { "@type": "PostalAddress", "addressLocality": "Roseville", "addressRegion": "CA", "addressCountry": "US" },
-  "sameAs": [
-    "https://www.otcmarkets.com/stock/INND/overview",
-    "https://www.tradingview.com/symbols/OTC-INND/",
-    "https://www.otchealthmart.com/"
-  ]
-}
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://innd.com/#org",
+    "name": "InnerScope Hearing Technologies, Inc.",
+    "alternateName": "INND",
+    "tickerSymbol": "INND",
+    "url": "https://innd.com",
+    "logo": "https://innd.com/assets/favicon.svg",
+    "foundingDate": "2012",
+    "foundingLocation": {
+      "@type": "Place",
+      "address": { "@type": "PostalAddress", "addressLocality": "Roseville", "addressRegion": "CA", "addressCountry": "US" }
+    },
+    "contactPoint": [
+      { "@type": "ContactPoint", "email": "ir@innd.com", "contactType": "investor relations" },
+      { "@type": "ContactPoint", "email": "partnerships@innd.com", "contactType": "business" }
+    ],
+    "sameAs": [
+      "https://www.otcmarkets.com/stock/INND/overview",
+      "https://www.tradingview.com/symbols/OTC-INND/",
+      "https://www.otchealthmart.com/"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://innd.com/#website",
+    "url": "https://innd.com",
+    "name": "InnerScope Hearing Technologies",
+    "publisher": { "@id": "https://innd.com/#org" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://innd.com/#webpage",
+    "url": "https://innd.com",
+    "name": "InnerScope Hearing Technologies (OTC: INND): Hearing Innovation, Public Markets",
+    "isPartOf": { "@id": "https://innd.com/#website" },
+    "about": { "@id": "https://innd.com/#org" },
+    "primaryImageOfPage": {
+      "@type": "ImageObject",
+      "url": "https://innd.com/assets/og/innd-og-1200x630.jpg",
+      "width": 1200,
+      "height": 630
+    }
+  }
+]
 </script>
 </head>
 <body data-tier="3">
