@@ -548,7 +548,13 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(payload)
       });
       if (!r.ok) throw new Error('status ' + r.status);
-      form.innerHTML = '<p class="form-status">Thank you for joining. Check your email shortly for your personalized $50 OTCHealthMart credit code.</p>';
+      const data = await r.json();
+      // All innerHTML below uses only hardcoded strings — no user input interpolated.
+      if (data.deferred || data.queued) {
+        form.innerHTML = '<p class="form-status">Thanks. We ran into a brief server delay — your info has been queued and you\'ll receive your credit code within 24 hours. If it doesn\'t arrive, email ir@innd.com.</p>';
+      } else {
+        form.innerHTML = '<p class="form-status">Thank you for joining. Check your email shortly for your personalized $50 OTCHealthMart credit code.</p>';
+      }
     } catch (err) {
       if (status) status.textContent = 'Something went wrong. Please try again, or email ir@innd.com.';
       if (btn) btn.disabled = false;
