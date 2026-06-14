@@ -20,7 +20,9 @@
 <!-- TODO: re-enable once real OG image exists. <meta name="twitter:image" content="https://innd.com/assets/og/innd-og-1200x630.png"> -->
 <meta name="theme-color" content="#0B1220">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<!-- TODO: create a real OG image (1200x630 PNG; 1989 family clinic + INND wordmark + ticker line) and a real /assets/favicon.svg, then re-enable the og:image and twitter:image meta tags above. -->
+<!-- TODO: create a real OG image (1200x630 PNG; 1989 family clinic + INND wordmark + ticker line) and re-enable the og:image and twitter:image meta tags above. -->
+<!-- Preload the hero LCP image so the browser fetches it in parallel with CSS -->
+<link rel="preload" as="image" href="/assets/photos/02-moore-family-clinic-1989.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {
@@ -89,8 +91,39 @@
       <a href="#ir">Investors</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect x="3" y="5.5" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="10" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="14.5" width="16" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
   </div>
 </header>
+
+<!-- Mobile navigation drawer -->
+<nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+  <div class="mobile-nav-panel" role="dialog" aria-modal="true">
+    <div class="mobile-nav-header">
+      <a class="mobile-nav-brand" href="#top" aria-label="InnerScope, home">
+        <span class="mobile-nav-brand-mark">INND</span>InnerScope
+      </a>
+      <button class="mobile-nav-close" id="mobile-nav-close" type="button" aria-label="Close navigation">&#x2715;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#legacy">Legacy</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#current">Today</a></li>
+      <li><a href="#brands">Brands</a></li>
+      <li><a href="/iheartest/">iHEARtest <span class="nav-beta-tag">beta</span></a></li>
+      <li><a href="#leadership">Leadership</a></li>
+      <li><a href="#ir">Investors</a></li>
+      <li><a href="#shareholder-updates">Updates</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
 <main id="main">
 

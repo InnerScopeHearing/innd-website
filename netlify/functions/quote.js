@@ -77,8 +77,8 @@ async function fetchTradingView() {
   const price = Number(d.close);
   const changeAbs = Number(d.change_abs ?? 0);
   const changePct = Number(d.change ?? 0);
-  // delayed_streaming_900 means 900-second (15-min) delay
-  const delayedMinutes = String(d.update_mode || '').includes('900') ? 15 : 15;
+  // delayed_streaming_900 = 900-second (15-min) delay; realtime = 0
+  const delayedMinutes = String(d.update_mode || '').includes('realtime') ? 0 : 15;
 
   return {
     symbol: SYMBOL,
@@ -94,8 +94,7 @@ async function fetchTradingView() {
     yearLow: roundSubPenny(Number(d.price_52_week_low ?? price)),
     volume: Number(d.volume ?? 0),
     vwap: roundSubPenny(Number(d.VWAP ?? price)),
-    marketCap: Number(d.market_cap_basic ?? 0),
-    // Override market cap with operator-supplied share count (TradingView's is stale)
+    // Operator-supplied share count overrides stale TradingView figure (183M vs 889M)
     marketCap: roundSubPenny(price) * SHARES_OUTSTANDING,
     sharesOutstanding: SHARES_OUTSTANDING,
     ts: new Date().toISOString(),

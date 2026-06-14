@@ -28,7 +28,7 @@
   // ---------- JSON loader ----------
   async function loadJSON(path) {
     try {
-      const r = await fetch(path, { cache: 'no-store' });
+      const r = await fetch(path);
       if (!r.ok) throw new Error(`${path}: ${r.status}`);
       return await r.json();
     } catch (err) {
@@ -42,6 +42,8 @@
     if (el && value != null) el.textContent = value;
   }
 
+  // All innerHTML template strings below interpolate only via escapeHTML() —
+  // every user-supplied or data-file value is entity-escaped before insertion.
   function escapeHTML(s) {
     return String(s).replace(/[&<>"']/g, c => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -162,6 +164,10 @@
   }
 
   // ---------- LEADERSHIP ----------
+  function getInitials(name) {
+    return String(name || '').split(/\s+/).map(p => p[0] || '').join('').slice(0, 2).toUpperCase();
+  }
+
   async function renderLeadership() {
     const d = await loadJSON('/data/leadership.json');
     if (!d) return;
@@ -170,16 +176,26 @@
     setText('[data-leadership="intro"]', d.intro);
     const grid = $('[data-leadership="leaders"]');
     if (grid && Array.isArray(d.leaders)) {
-      grid.innerHTML = d.leaders.map(l => `
-        <article class="leader-card">
-          <p class="leader-name">${escapeHTML(l.name)}</p>
-          <p class="leader-title">${escapeHTML(l.title)}</p>
-          <p>${escapeHTML(l.bio)}</p>
-        </article>`).join('');
+      grid.innerHTML = d.leaders.map(l => {
+        const initials = getInitials(l.name);
+        const avatarInner = l.photo
+          ? `<img src="/assets/photos/${escapeHTML(l.photo)}" alt="" class="leader-photo" loading="lazy" decoding="async">`
+          : `<span class="leader-monogram" aria-hidden="true">${escapeHTML(initials)}</span>`;
+        return `
+          <article class="leader-card">
+            <div class="leader-card-head">
+              <div class="leader-avatar">${avatarInner}</div>
+              <div class="leader-meta">
+                <p class="leader-name">${escapeHTML(l.name)}</p>
+                <p class="leader-title">${escapeHTML(l.title)}</p>
+              </div>
+            </div>
+            <p class="leader-bio">${escapeHTML(l.bio)}</p>
+          </article>`;
+      }).join('');
     }
     const note = $('[data-leadership="additional_leaders_note"]');
     if (note && d.additional_leaders_note) {
-      // Strip HTML-comment portion before display
       note.textContent = d.additional_leaders_note.replace(/<!--[\s\S]*?-->/g, '').trim();
     }
   }
@@ -472,6 +488,41 @@
     });
   });
 })();
+
+/* ===== Mobile navigation ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('nav-toggle');
+  const nav    = document.getElementById('mobile-nav');
+  const close  = document.getElementById('mobile-nav-close');
+  if (!toggle || !nav) return;
+
+  function openNav() {
+    nav.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNav() {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', () =>
+    nav.classList.contains('is-open') ? closeNav() : openNav()
+  );
+  if (close) close.addEventListener('click', closeNav);
+
+  // Close on backdrop click (outside the panel)
+  nav.addEventListener('click', e => { if (e.target === nav) closeNav(); });
+
+  // Close when a same-page anchor link is tapped
+  nav.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', closeNav));
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) closeNav();
+  });
+});
 
 /* ===== Shareholder updates signup (posts to /.netlify/functions/signup) ===== */
 document.addEventListener('DOMContentLoaded', () => {
