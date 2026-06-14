@@ -3,7 +3,7 @@
 > Living memory for this project. A fresh Claude Code session reads this first and
 > continues from "Next up". Update before you stop.
 
-**Last updated:** 2026-06-14 by Claude Code (v1.3.1 polish + perf)
+**Last updated:** 2026-06-14 by Claude Code (v1.3.2 audit complete)
 
 ## CURRENT STATE
 v1.3.1 on feature branch `claude/vibrant-dijkstra-977p5z`, PR #5 open (draft).
@@ -12,14 +12,18 @@ content driven by JSON in data/. SECURITIES FIREWALL: all IR-facing copy is atto
 gated; the PSLRA safe harbor is NOT available to penny-stock issuers. Do not invent
 financials/partnerships/dates; emit TODO comments instead.
 
-## v1.3.1 what was done (3rd commit on the branch)
-- OG image compressed: replaced 1.4MB PNG with 101KB JPEG (14x smaller). Social crawlers
-  (Twitter/Slack/iMessage) fetch this on every link unfurl. Updated og:image + twitter:image meta.
-  Raw intermediates (innd-og-raw.png, innd-og-raw.meta.json) gitignored so they don't re-land.
-- CSP fixed: netlify.toml connect-src updated from dead n8n Cloud host
-  (otchealth.app.n8n.cloud) to live n8n self-host (automation.otchealth.app).
-- Press releases now stagger in: added .press-list to the nth-child stagger selector in
-  styles.css + data-reveal on the <ul> in index.html.
+## v1.3.2 what was done (commits 3-9 on the branch)
+- OG image: 1.4MB PNG → 101KB JPEG (14x). og:image + twitter:image updated. Raw gitignored.
+- CSP: connect-src fixed (dead Cloud host → automation.otchealth.app self-host).
+- iHEARtest webhook repoint: BETA_SIGNUP_WEBHOOK_URL in iheartest/index.html updated (absorbs PR #3).
+- Press releases stagger in: .press-list added to nth-child stagger selector + data-reveal on <ul>.
+- a11y: skip-to-main on all 3 pages, aria-hidden on all honeypot wrappers, tabindex=-1 on bot-fields.
+- a11y/perf: LCP preload on iheartest hero, fix og:image:alt em dash.
+- SEO: schema.org expanded (Organization + WebSite + WebPage @graph), SoftwareApplication on iheartest.
+  Sitemap updated (lastmod, added iheartest/, removed non-crawlable #hash anchors).
+- CSS: .eyebrow rule deduplicated.
+- Bugs: email redacted from signup.js console.log; client now shows softer message on deferred/queued.
+- thank-you.html: em dashes replaced with commas/pipes in title and aria-label.
 
 ## v1.3.0 what was done
 - Fixed 3 confirmed bugs (favicon 404, duplicate marketCap key, delayedMinutes tautology)
