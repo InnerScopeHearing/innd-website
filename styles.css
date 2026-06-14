@@ -1152,17 +1152,17 @@ p:last-child { margin-bottom: 0; }
    entry that reads as premium without being distracting.
    ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > * {
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > * {
     animation: gridCardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(2)  { animation-delay:  80ms; }
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(3)  { animation-delay: 160ms; }
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(4)  { animation-delay: 240ms; }
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(5)  { animation-delay: 320ms; }
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(6)  { animation-delay: 400ms; }
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(7)  { animation-delay: 480ms; }
-  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid).is-visible > *:nth-child(n+8) { animation-delay: 560ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(2)  { animation-delay:  80ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(3)  { animation-delay: 160ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(4)  { animation-delay: 240ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(5)  { animation-delay: 320ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(6)  { animation-delay: 400ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(7)  { animation-delay: 480ms; }
+  :is(.brand-grid, .leader-grid, .highlight-grid, .timeline, .track-record-list, .market-grid, .press-list).is-visible > *:nth-child(n+8) { animation-delay: 560ms; }
 
   @keyframes gridCardIn {
     from { opacity: 0; transform: translateY(18px); }
