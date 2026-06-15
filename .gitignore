@@ -33,3 +33,4 @@ npm-debug.log*
 # Generated asset intermediates (raw before crop/compress)
 assets/og/innd-og-raw.png
 assets/og/innd-og-raw.meta.json
+iheartest/assets/og-card.meta.json

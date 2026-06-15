@@ -551,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await r.json();
       // All innerHTML below uses only hardcoded strings — no user input interpolated.
       if (data.deferred || data.queued) {
-        form.innerHTML = '<p class="form-status">Thanks. We ran into a brief server delay — your info has been queued and you\'ll receive your credit code within 24 hours. If it doesn\'t arrive, email ir@innd.com.</p>';
+        form.innerHTML = '<p class="form-status">Thanks. We ran into a brief server delay. Your info has been queued and you\'ll receive your credit code within 24 hours. If it doesn\'t arrive, email ir@innd.com.</p>';
       } else {
         form.innerHTML = '<p class="form-status">Thank you for joining. Check your email shortly for your personalized $50 OTCHealthMart credit code.</p>';
       }
