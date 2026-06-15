@@ -20,7 +20,8 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     # CSP allows TradingView (Tier 1/2 widgets), OTC Markets (Tier 2 iframe),
     # Polygon and Finnhub (Tier 3 quote function CORS preflight),
     # and `'unsafe-inline'` for the TradingView embed bootstrap script.
@@ -29,6 +30,11 @@
 # Long-cache static assets
 [[headers]]
   for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/iheartest/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
