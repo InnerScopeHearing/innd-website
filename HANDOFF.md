@@ -3,10 +3,12 @@
 > Living memory for this project. A fresh Claude Code session reads this first and
 > continues from "Next up". Update before you stop.
 
-**Last updated:** 2026-06-20 by Claude Code (v1.3.3 audit complete)
+**Last updated:** 2026-06-20 by Claude Code (v1.3.3 live on production)
 
 ## CURRENT STATE
-v1.3.3 on feature branch `claude/vibrant-dijkstra-977p5z`, PR #5 open (draft).
+v1.3.3 LIVE at https://innd.com (Netlify deploy `6a36438b`, deployed 2026-06-20 via API zip upload
+after the PR preview Netlify/GitHub integration was broken). Feature branch `claude/vibrant-dijkstra-977p5z`
+and PR #5 (draft) remain open for formal review + merge to bring git history in sync with production.
 InnerScope (OTC: INND) corporate + IR site. Static HTML/CSS/JS, deploys to Netlify (innd.com),
 content driven by JSON in data/. SECURITIES FIREWALL: all IR-facing copy is attorney + Matt + Capital
 gated; the PSLRA safe harbor is NOT available to penny-stock issuers. Do not invent
@@ -69,7 +71,8 @@ This is NOT a code error and does NOT block PR review.
 
 ## Next up (all operator-gated -- no code change will unblock these)
 - Matt: fix Netlify GitHub App permission (see KNOWN INFRASTRUCTURE ISSUE above) so PR previews work.
-- Matt + attorney: review and merge PR #5 (draft) -- v1.3.0 + v1.3.2 + v1.3.3 changes.
+- Matt + attorney: merge PR #5 (draft) -- changes are already live; merge brings git/main in sync.
+  To roll back to the June 3 state: Netlify -> Deploys -> click deploy 6a20b059 -> "Publish deploy".
 - Matt: close PR #3 (absorbed into PR #5; iHEARtest webhook + CSP both covered).
 - Matt: set N8N_SHAREHOLDER_WEBHOOK env var in Netlify to activate $50 credit flow.
   signup.js is DARK (queues silently with ok:true) until this env var is set.
