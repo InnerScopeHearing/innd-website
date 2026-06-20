@@ -723,6 +723,10 @@ form .honeypot { position: absolute; left: -10000px; height: 0; width: 0; overfl
    ============================================================ */
 const BETA_SIGNUP_WEBHOOK_URL = "https://automation.otchealth.app/webhook/iheartest-beta-signup";
 
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("beta-form");
   const stateBox = document.getElementById("form-state");
@@ -847,7 +851,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (res.status === 400) {
         let msg = "Some of the answers didn't validate on the server. Please review and try again.";
-        try { const body = await res.json(); if (body && body.message) msg = body.message; } catch (_) {}
+        try { const body = await res.json(); if (body && body.message) msg = escapeHtml(body.message); } catch (_) {}
         showState("error", msg);
       } else {
         showState("error",
@@ -860,7 +864,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "or email <a href=\"mailto:care@otchealthmart.com\">care@otchealthmart.com</a>.");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = "Apply for the beta &nbsp;&rarr;";
+      submitBtn.textContent = "Apply for the beta  →";
     }
   });
 });

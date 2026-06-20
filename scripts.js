@@ -411,20 +411,17 @@
 
       // Meta line
       const time = new Date(q.ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+      const sourceLabel = q.source === 'tradingview' ? 'TradingView' : q.source === 'yahoo' ? 'Yahoo Finance' : 'OTC Markets';
       $('#quote-meta').textContent = q.mock
         ? 'Synthetic data shown. Activate live by adding POLYGON_API_KEY in Netlify env vars.'
-        : `As of ${time} · Source: ${q.source === 'tradingview' ? 'TradingView' : q.source === 'yahoo' ? 'Yahoo Finance' : q.source} · Quotes delayed ~${q.delayedMinutes ?? 15} min`;
+        : `As of ${time} · Source: ${sourceLabel} · Quotes delayed ~${q.delayedMinutes ?? 15} min`;
 
       // Status pill
       const status = $('#quote-status');
       status.classList.remove('is-mock', 'is-live', 'is-error');
-      if (q.mock) {
-        status.classList.add('is-mock');
-        status.querySelector('.quote-status-text').textContent = 'MOCK';
-      } else {
-        status.classList.add('is-live');
-        status.querySelector('.quote-status-text').textContent = 'LIVE';
-      }
+      status.classList.add(q.mock ? 'is-mock' : 'is-live');
+      const pill = status.querySelector('.quote-status-text');
+      if (pill) pill.textContent = q.mock ? 'MOCK' : 'LIVE';
 
       // Mirror price into ir-glance "Last" cell if present
       const lastCell = document.querySelector('[data-glance="last"]');
@@ -434,7 +431,8 @@
       const status = $('#quote-status');
       if (status) {
         status.classList.add('is-error');
-        status.querySelector('.quote-status-text').textContent = 'OFFLINE';
+        const pill = status.querySelector('.quote-status-text');
+        if (pill) pill.textContent = 'OFFLINE';
       }
     }
   }

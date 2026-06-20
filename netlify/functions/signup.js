@@ -68,7 +68,7 @@ exports.handler = async (event) => {
 
   const hook = process.env.N8N_SHAREHOLDER_WEBHOOK;
   if (!hook) {
-    console.log('signup queued (no webhook configured):', email.split('@')[1] || 'unknown-domain');
+    console.log('signup queued (no webhook configured)');
     return resp(200, { ok: true, queued: true }, origin);
   }
 
