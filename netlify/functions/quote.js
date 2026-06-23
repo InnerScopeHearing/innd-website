@@ -3,10 +3,10 @@
    Returns a normalized INND quote for the custom hero ticker.
 
    Source priority:
-     1. TradingView scanner (OTC:INND) — same feed their widgets use,
+     1. TradingView scanner (OTC:INND), same feed their widgets use,
         sub-penny precision, includes market cap and shares outstanding
-     2. Yahoo Finance (chart endpoint) — fallback, ~15 min delayed
-     3. Mock data — final fallback so the front-end never breaks
+     2. Yahoo Finance (chart endpoint), fallback, ~15 min delayed
+     3. Mock data, final fallback so the front-end never breaks
 
    Override via QUOTE_PROVIDER env var: "tradingview"|"yahoo"|"mock"
    ========================================================================== */
