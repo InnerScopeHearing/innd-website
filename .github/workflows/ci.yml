@@ -1,0 +1,78 @@
+# INND website CI guard.
+#
+# The site is static HTML/CSS/JS with content driven by data/*.json, deployed
+# to Netlify. It had no CI. This adds dependency-free, objective guards that run
+# on every PR + push to main (standard ubuntu runners, no build step):
+#
+#   1. data JSON validity  - a malformed data/*.json breaks the JSON-driven site.
+#   2. no em/en dashes      - enforces the project-wide published-copy style rule.
+#   3. forward-looking block - guards the load-bearing securities disclosure copy
+#      in data/disclaimers.json against accidental removal (penny-stock issuer:
+#      the bespeaks-caution language is not optional).
+#
+# This is a hygiene/compliance guard, NOT a substitute for the counsel/operator
+# review gates documented in CLAUDE.md. SHA-pinned actions per supply-chain policy.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  guards:
+    name: data + copy + disclosure guards
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Set up Node 22
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22
+
+      - name: Validate data JSON
+        run: |
+          fail=0
+          for f in data/*.json; do
+            if node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null; then
+              echo "OK   $f"
+            else
+              echo "BAD  $f (invalid JSON)"; fail=1
+            fi
+          done
+          exit $fail
+
+      - name: No em/en dashes in published copy
+        run: |
+          # Byte-level match for U+2013 (en) / U+2014 (em), locale-independent.
+          # Excludes internal reference docs and the repo plumbing.
+          if grep -rnP '\xe2\x80[\x93\x94]' \
+              --include='*.html' --include='*.js' --include='*.css' \
+              --include='*.json' --include='*.xml' \
+              --exclude-dir='.git' --exclude-dir='docs' --exclude-dir='node_modules' . ; then
+            echo "ERROR: em/en dash found in published copy. Use commas, periods, or line breaks."
+            exit 1
+          fi
+          echo "No em/en dashes in published copy."
+
+      - name: Forward-looking disclosure present
+        run: |
+          f=data/disclaimers.json
+          fail=0
+          for marker in \
+            "Section 27A of the Securities Act of 1933" \
+            "Section 21E" \
+            "Forward-Looking Statements"; do
+            if ! grep -qF "$marker" "$f"; then
+              echo "ERROR: required forward-looking marker missing from $f: $marker"
+              fail=1
+            fi
+          done
+          if [ "$fail" = "0" ]; then echo "Forward-looking disclosure block present."; fi
+          exit $fail
