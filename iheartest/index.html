@@ -12,19 +12,33 @@
 <meta property="og:url" content="https://innd.com/iheartest/">
 <meta property="og:title" content="iHEARtest beta. Apply for one of 75 spots.">
 <meta property="og:description" content="Free at-home hearing screening for iPhone. Beta launches June 1, 2026.">
-<meta property="og:image" content="https://innd.com/iheartest/og-card.png">
+<meta property="og:image" content="https://innd.com/iheartest/assets/og-card.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="iHEARtest TestFlight beta. Your hearing. In five minutes. 75 spots remain. Apply now at innd.com/iheartest.">
+<meta property="og:image:alt" content="iHEARtest. Free at-home hearing screening for iPhone. Apply for a beta spot at innd.com/iheartest.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="iHEARtest beta. Apply for one of 75 spots.">
 <meta name="twitter:description" content="Free at-home hearing screening for iPhone. Beta launches June 1, 2026.">
-<meta name="twitter:image" content="https://innd.com/iheartest/og-card.png">
-<meta name="twitter:image:alt" content="iHEARtest TestFlight beta. Your hearing. In five minutes. 75 spots remain. Apply now at innd.com/iheartest.">
+<meta name="twitter:image" content="https://innd.com/iheartest/assets/og-card.jpg">
+<meta name="twitter:image:alt" content="iHEARtest. Free at-home hearing screening for iPhone. Apply for a beta spot at innd.com/iheartest.">
 
 <link rel="icon" type="image/png" href="/iheartest/assets/app-icon-1024.png">
 <link rel="apple-touch-icon" href="/iheartest/assets/app-icon-1024.png">
 <meta name="theme-color" content="#2E7D8C">
+<!-- Preload the hero center phone screenshot (LCP on most viewports) -->
+<link rel="preload" as="image" href="/iheartest/assets/screen-home.webp" fetchpriority="high" type="image/webp">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "iHEARtest",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "iOS",
+  "description": "A free at-home hearing screening for iPhone. Tests both ears, generates a Hearing Number, and offers a tinnitus masking feature.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": { "@type": "Organization", "name": "InnerScope Hearing Technologies, Inc.", "url": "https://innd.com" }
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -240,9 +254,12 @@ form .honeypot { position: absolute; left: -10000px; height: 0; width: 0; overfl
 .site-footer .credit-line a { color: #aab8bc; }
 
 .vh { position: absolute; clip: rect(0 0 0 0); width: 1px; height: 1px; overflow: hidden; }
+.skip-link:focus { left: 16px !important; top: 16px !important; }
 </style>
 </head>
 <body>
+
+<a href="#main" class="vh skip-link" style="position:absolute;left:-9999px;top:-9999px;background:#2E7D8C;color:#fff;padding:12px 16px;font-weight:600;z-index:1000;border-radius:0 0 8px 8px">Skip to main content</a>
 
 <header class="topnav">
   <div class="topnav-inner">
@@ -253,7 +270,7 @@ form .honeypot { position: absolute; left: -10000px; height: 0; width: 0; overfl
   </div>
 </header>
 
-<main>
+<main id="main">
 
 <!-- SECTION 1: HERO -->
 <section class="teal-hero hero" aria-labelledby="hero-h1">
@@ -704,7 +721,11 @@ form .honeypot { position: absolute; left: -10000px; height: 0; width: 0; overfl
    the webhook URL. Until then, the form shows a friendly
    "not yet wired up" notice instead of failing silently.
    ============================================================ */
-const BETA_SIGNUP_WEBHOOK_URL = "https://otchealth.app.n8n.cloud/webhook/iheartest-beta-signup";
+const BETA_SIGNUP_WEBHOOK_URL = "https://automation.otchealth.app/webhook/iheartest-beta-signup";
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("beta-form");
@@ -830,7 +851,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (res.status === 400) {
         let msg = "Some of the answers didn't validate on the server. Please review and try again.";
-        try { const body = await res.json(); if (body && body.message) msg = body.message; } catch (_) {}
+        try { const body = await res.json(); if (body && body.message) msg = escapeHtml(body.message); } catch (_) {}
         showState("error", msg);
       } else {
         showState("error",
@@ -843,7 +864,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "or email <a href=\"mailto:care@otchealthmart.com\">care@otchealthmart.com</a>.");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = "Apply for the beta &nbsp;&rarr;";
+      submitBtn.textContent = "Apply for the beta  →";
     }
   });
 });

@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.3.0] - 2026-06-14 (staging)
+
+Full-stack quality uplift: bug fixes, security hardening, premium design polish.
+Multi-lens audit (code, security, design) drove the change set.
+
+### Fixed
+- **quote.js duplicate `marketCap` key** (silent dead code): first assignment
+  (`Number(d.market_cap_basic ?? 0)`) was overwritten by the second. Removed the
+  dead line; operator-supplied share count remains the single source of truth.
+- **`delayedMinutes` always 15** (`? 15 : 15` tautology): now correctly returns
+  `0` when TradingView reports a realtime `update_mode`, so the front-end disclosure
+  accurately reflects actual delay. Required for §8.6 quote-delay accuracy.
+- **Favicon 404**: `assets/favicon.svg` did not exist; every page load threw a 404.
+  Created a clean SVG lettermark (navy square, cream "IN", oxblood rule).
+- **`cache: 'no-store'` on all JSON fetches**: defeated browser caching for static
+  content files. Removed the override; browser now uses its default `cache: 'default'`
+  heuristics, allowing conditional revalidation.
+
+### Security
+- **signup.js CORS hardened**: `Access-Control-Allow-Origin: *` replaced with a
+  same-origin allowlist (`innd.com`, `www.innd.com`, `innd.netlify.app`). The
+  matched origin is reflected in the response with `Vary: Origin`.
+- **signup.js consent gating**: previously accepted signups when `consent === false`
+  (only checked truthiness downstream). Now explicitly rejects with `consent_required`.
+- **signup.js name sanitization**: `first_name` / `last_name` now capped at 100
+  chars and stripped of `<>&"'` before forwarding to n8n + Customer.io + Shopify,
+  closing a potential stored-XSS vector in admin UIs.
+
+### Added
+- **Mobile navigation**: hamburger toggle + slide-in drawer with spring easing,
+  backdrop blur, Escape-key close, and scroll-lock. No mobile nav previously existed.
+- **Staggered card grid animation**: cards within brand/timeline/leadership/highlight/
+  market grids now enter sequentially (80 ms apart) via CSS nth-child animation.
+  Uses `cubic-bezier(0.22, 1, 0.36, 1)` (spring-feel easing).
+- **Leadership card avatar**: each leader card now shows a monogram avatar (initials
+  in the brand oxblood on a cream circle) when `photo` is null. Upgrades from
+  text-only to a premium card layout with head row.
+- **Hero LCP preload**: `<link rel="preload">` for the hero background image,
+  cutting time-to-paint for the largest contentful element.
+
+### Changed
+- **`will-change: transform` scoped to `:hover`**: was applied statically on all
+  card classes (every card held a GPU layer on load). Now promoted only on `:hover`,
+  reducing idle memory pressure on mobile.
+- **`[data-reveal]` transition supports `--reveal-delay`**: the CSS custom property
+  is now read in the transition timing, letting callers stagger reveals without JS.
+
+---
+
 ## [1.2.0] - 2026-05-21 (staging)
 
 The "shareholder engagement" release. Adds a forward-looking vision section,
