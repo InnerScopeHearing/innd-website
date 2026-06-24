@@ -1,0 +1,14 @@
+{
+  "prompt": "Brand colors: primary #0d9488, deep #0f766e. Illustration style: Flat geometric illustration, 2-3 color limit using brand palette, generous whitespace, no photorealism, soft edges, modern editorial feel. Style of Magoz meets Headspace's Christoph Niemann. Reference brands to mimic: Calm, Headspace, Mira, Linear. Avoid: stock photo silver-haired couple in wheat field; fake clinical iconography. Abstract minimal vector background. Thin concentric sound wave arcs radiating from the bottom left corner across a solid deep navy field. Arcs are teal and fade gently into the dark background, with one single thin oxblood red accent arc. Calm, premium, restrained, generous empty negative space in the upper right. Absolutely no people, no text, no letters, no numbers, no labels. Flat corporate vector style.",
+  "user_prompt": "Abstract minimal vector background. Thin concentric sound wave arcs radiating from the bottom left corner across a solid deep navy field. Arcs are teal and fade gently into the dark background, with one single thin oxblood red accent arc. Calm, premium, restrained, generous empty negative space in the upper right. Absolutely no people, no text, no letters, no numbers, no labels. Flat corporate vector style.",
+  "kind": "illustration",
+  "size": "1024x1024",
+  "model": "imagen4",
+  "quality": "high",
+  "variant": 1,
+  "brand_name": "Default",
+  "brand_source": "/root/.claude/skills/designer/brand-profiles/default.json",
+  "cost_estimate_usd": 0.04,
+  "output": "/home/user/innd-website/assets/proposed/sample-hero-soundwave.png",
+  "generated_at": "2026-06-03T23:23:56.323Z"
+}

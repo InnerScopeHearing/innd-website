@@ -1,0 +1,14 @@
+{
+  "prompt": "Brand colors: primary #0d9488, deep #0f766e. Illustration style: Flat geometric illustration, 2-3 color limit using brand palette, generous whitespace, no photorealism, soft edges, modern editorial feel. Style of Magoz meets Headspace's Christoph Niemann. Reference brands to mimic: Calm, Headspace, Mira, Linear. Avoid: stock photo silver-haired couple in wheat field; fake clinical iconography. A clean studio product photograph of a small modern rechargeable in-ear consumer hearing device resting in its compact charging case on a soft neutral light gray surface, premium ecommerce lighting, no text, no logos, no packaging, no people.",
+  "user_prompt": "A clean studio product photograph of a small modern rechargeable in-ear consumer hearing device resting in its compact charging case on a soft neutral light gray surface, premium ecommerce lighting, no text, no logos, no packaging, no people.",
+  "kind": "illustration",
+  "size": "1024x1024",
+  "model": "imagen4",
+  "quality": "high",
+  "variant": 1,
+  "brand_name": "Default",
+  "brand_source": "/root/.claude/skills/designer/brand-profiles/default.json",
+  "cost_estimate_usd": 0.04,
+  "output": "/home/user/innd-website/assets/proposed/mockup-product.png",
+  "generated_at": "2026-06-04T00:18:50.485Z"
+}
