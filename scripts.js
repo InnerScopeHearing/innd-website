@@ -28,7 +28,7 @@
   // ---------- JSON loader ----------
   async function loadJSON(path) {
     try {
-      const r = await fetch(path, { cache: 'no-store' });
+      const r = await fetch(path);
       if (!r.ok) throw new Error(`${path}: ${r.status}`);
       return await r.json();
     } catch (err) {
@@ -42,6 +42,8 @@
     if (el && value != null) el.textContent = value;
   }
 
+  // All innerHTML template strings below interpolate only via escapeHTML() —
+  // every user-supplied or data-file value is entity-escaped before insertion.
   function escapeHTML(s) {
     return String(s).replace(/[&<>"']/g, c => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -162,6 +164,10 @@
   }
 
   // ---------- LEADERSHIP ----------
+  function getInitials(name) {
+    return String(name || '').split(/\s+/).map(p => p[0] || '').join('').slice(0, 2).toUpperCase();
+  }
+
   async function renderLeadership() {
     const d = await loadJSON('/data/leadership.json');
     if (!d) return;
@@ -170,16 +176,26 @@
     setText('[data-leadership="intro"]', d.intro);
     const grid = $('[data-leadership="leaders"]');
     if (grid && Array.isArray(d.leaders)) {
-      grid.innerHTML = d.leaders.map(l => `
-        <article class="leader-card">
-          <p class="leader-name">${escapeHTML(l.name)}</p>
-          <p class="leader-title">${escapeHTML(l.title)}</p>
-          <p>${escapeHTML(l.bio)}</p>
-        </article>`).join('');
+      grid.innerHTML = d.leaders.map(l => {
+        const initials = getInitials(l.name);
+        const avatarInner = l.photo
+          ? `<img src="/assets/photos/${escapeHTML(l.photo)}" alt="" class="leader-photo" loading="lazy" decoding="async">`
+          : `<span class="leader-monogram" aria-hidden="true">${escapeHTML(initials)}</span>`;
+        return `
+          <article class="leader-card">
+            <div class="leader-card-head">
+              <div class="leader-avatar">${avatarInner}</div>
+              <div class="leader-meta">
+                <p class="leader-name">${escapeHTML(l.name)}</p>
+                <p class="leader-title">${escapeHTML(l.title)}</p>
+              </div>
+            </div>
+            <p class="leader-bio">${escapeHTML(l.bio)}</p>
+          </article>`;
+      }).join('');
     }
     const note = $('[data-leadership="additional_leaders_note"]');
     if (note && d.additional_leaders_note) {
-      // Strip HTML-comment portion before display
       note.textContent = d.additional_leaders_note.replace(/<!--[\s\S]*?-->/g, '').trim();
     }
   }
@@ -395,20 +411,17 @@
 
       // Meta line
       const time = new Date(q.ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+      const sourceLabel = q.source === 'tradingview' ? 'TradingView' : q.source === 'yahoo' ? 'Yahoo Finance' : 'OTC Markets';
       $('#quote-meta').textContent = q.mock
         ? 'Synthetic data shown. Activate live by adding POLYGON_API_KEY in Netlify env vars.'
-        : `As of ${time} · Source: ${q.source === 'tradingview' ? 'TradingView' : q.source === 'yahoo' ? 'Yahoo Finance' : q.source} · Quotes delayed ~${q.delayedMinutes ?? 15} min`;
+        : `As of ${time} · Source: ${sourceLabel} · Quotes delayed ~${q.delayedMinutes ?? 15} min`;
 
       // Status pill
       const status = $('#quote-status');
       status.classList.remove('is-mock', 'is-live', 'is-error');
-      if (q.mock) {
-        status.classList.add('is-mock');
-        status.querySelector('.quote-status-text').textContent = 'MOCK';
-      } else {
-        status.classList.add('is-live');
-        status.querySelector('.quote-status-text').textContent = 'LIVE';
-      }
+      status.classList.add(q.mock ? 'is-mock' : 'is-live');
+      const pill = status.querySelector('.quote-status-text');
+      if (pill) pill.textContent = q.mock ? 'MOCK' : 'LIVE';
 
       // Mirror price into ir-glance "Last" cell if present
       const lastCell = document.querySelector('[data-glance="last"]');
@@ -418,7 +431,8 @@
       const status = $('#quote-status');
       if (status) {
         status.classList.add('is-error');
-        status.querySelector('.quote-status-text').textContent = 'OFFLINE';
+        const pill = status.querySelector('.quote-status-text');
+        if (pill) pill.textContent = 'OFFLINE';
       }
     }
   }
@@ -473,6 +487,41 @@
   });
 })();
 
+/* ===== Mobile navigation ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('nav-toggle');
+  const nav    = document.getElementById('mobile-nav');
+  const close  = document.getElementById('mobile-nav-close');
+  if (!toggle || !nav) return;
+
+  function openNav() {
+    nav.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNav() {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', () =>
+    nav.classList.contains('is-open') ? closeNav() : openNav()
+  );
+  if (close) close.addEventListener('click', closeNav);
+
+  // Close on backdrop click (outside the panel)
+  nav.addEventListener('click', e => { if (e.target === nav) closeNav(); });
+
+  // Close when a same-page anchor link is tapped
+  nav.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', closeNav));
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) closeNav();
+  });
+});
+
 /* ===== Shareholder updates signup (posts to /.netlify/functions/signup) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('shareholder-signup-form');
@@ -497,7 +546,13 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(payload)
       });
       if (!r.ok) throw new Error('status ' + r.status);
-      form.innerHTML = '<p class="form-status">Thank you for joining. Check your email shortly for your personalized $50 OTCHealthMart credit code.</p>';
+      const data = await r.json();
+      // All innerHTML below uses only hardcoded strings — no user input interpolated.
+      if (data.deferred || data.queued) {
+        form.innerHTML = '<p class="form-status">Thanks. We ran into a brief server delay. Your info has been queued and you\'ll receive your credit code within 24 hours. If it doesn\'t arrive, email ir@innd.com.</p>';
+      } else {
+        form.innerHTML = '<p class="form-status">Thank you for joining. Check your email shortly for your personalized $50 OTCHealthMart credit code.</p>';
+      }
     } catch (err) {
       if (status) status.textContent = 'Something went wrong. Please try again, or email ir@innd.com.';
       if (btn) btn.disabled = false;

@@ -1,0 +1,17 @@
+{
+  "name": "InnerScope Hearing Technologies",
+  "short_name": "INND",
+  "description": "InnerScope Hearing Technologies (OTC: INND) — corporate and investor relations site.",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#0B1220",
+  "background_color": "#F8F4ED",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}

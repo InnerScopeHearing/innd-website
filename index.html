@@ -13,29 +13,71 @@
 <meta property="og:url" content="https://innd.com/">
 <meta property="og:title" content="InnerScope Hearing Technologies (OTC: INND)">
 <meta property="og:description" content="A public company with three generations of Moore-family ownership in hearing care.">
-<!-- TODO: re-enable once real OG image exists. <meta property="og:image" content="https://innd.com/assets/og/innd-og-1200x630.png"> -->
+<meta property="og:image" content="https://innd.com/assets/og/innd-og-1200x630.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="InnerScope Hearing Technologies (OTC: INND), three generations of Moore-family hearing care">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="InnerScope Hearing Technologies (OTC: INND)">
 <meta name="twitter:description" content="A public company with three generations of Moore-family ownership in hearing care.">
-<!-- TODO: re-enable once real OG image exists. <meta name="twitter:image" content="https://innd.com/assets/og/innd-og-1200x630.png"> -->
+<meta name="twitter:image" content="https://innd.com/assets/og/innd-og-1200x630.jpg">
 <meta name="theme-color" content="#0B1220">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<!-- TODO: create a real OG image (1200x630 PNG; 1989 family clinic + INND wordmark + ticker line) and a real /assets/favicon.svg, then re-enable the og:image and twitter:image meta tags above. -->
+<link rel="manifest" href="/site.webmanifest">
+<!-- OG image: assets/og/innd-og-1200x630.jpg (generated 2026-06-14, GPT-image-1 via Azure, 101KB JPEG). Regenerate if brand changes. -->
+<!-- Preload the hero LCP image so the browser fetches it in parallel with CSS -->
+<link rel="preload" as="image" href="/assets/photos/02-moore-family-clinic-1989.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "InnerScope Hearing Technologies, Inc.",
-  "tickerSymbol": "INND",
-  "url": "https://innd.com",
-  "address": { "@type": "PostalAddress", "addressLocality": "Roseville", "addressRegion": "CA", "addressCountry": "US" },
-  "sameAs": [
-    "https://www.otcmarkets.com/stock/INND/overview",
-    "https://www.tradingview.com/symbols/OTC-INND/",
-    "https://www.otchealthmart.com/"
-  ]
-}
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://innd.com/#org",
+    "name": "InnerScope Hearing Technologies, Inc.",
+    "alternateName": "INND",
+    "tickerSymbol": "INND",
+    "url": "https://innd.com",
+    "logo": "https://innd.com/assets/favicon.svg",
+    "foundingDate": "2012",
+    "foundingLocation": {
+      "@type": "Place",
+      "address": { "@type": "PostalAddress", "addressLocality": "Roseville", "addressRegion": "CA", "addressCountry": "US" }
+    },
+    "contactPoint": [
+      { "@type": "ContactPoint", "email": "ir@innd.com", "contactType": "investor relations" },
+      { "@type": "ContactPoint", "email": "partnerships@innd.com", "contactType": "business" }
+    ],
+    "sameAs": [
+      "https://www.otcmarkets.com/stock/INND/overview",
+      "https://www.tradingview.com/symbols/OTC-INND/",
+      "https://www.otchealthmart.com/"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://innd.com/#website",
+    "url": "https://innd.com",
+    "name": "InnerScope Hearing Technologies",
+    "publisher": { "@id": "https://innd.com/#org" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://innd.com/#webpage",
+    "url": "https://innd.com",
+    "name": "InnerScope Hearing Technologies (OTC: INND): Hearing Innovation, Public Markets",
+    "isPartOf": { "@id": "https://innd.com/#website" },
+    "about": { "@id": "https://innd.com/#org" },
+    "primaryImageOfPage": {
+      "@type": "ImageObject",
+      "url": "https://innd.com/assets/og/innd-og-1200x630.jpg",
+      "width": 1200,
+      "height": 630
+    }
+  }
+]
 </script>
 </head>
 <body data-tier="3">
@@ -89,8 +131,39 @@
       <a href="#ir">Investors</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect x="3" y="5.5" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="10" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="14.5" width="16" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
   </div>
 </header>
+
+<!-- Mobile navigation drawer -->
+<nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+  <div class="mobile-nav-panel" role="dialog" aria-modal="true">
+    <div class="mobile-nav-header">
+      <a class="mobile-nav-brand" href="#top" aria-label="InnerScope, home">
+        <span class="mobile-nav-brand-mark">INND</span>InnerScope
+      </a>
+      <button class="mobile-nav-close" id="mobile-nav-close" type="button" aria-label="Close navigation">&#x2715;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#legacy">Legacy</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#current">Today</a></li>
+      <li><a href="#brands">Brands</a></li>
+      <li><a href="/iheartest/">iHEARtest <span class="nav-beta-tag">beta</span></a></li>
+      <li><a href="#leadership">Leadership</a></li>
+      <li><a href="#ir">Investors</a></li>
+      <li><a href="#shareholder-updates">Updates</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
 <main id="main">
 
@@ -363,7 +436,7 @@
     <div class="ir-press" data-reveal>
       <h3>Press releases</h3>
       <p class="micro-note">A handful of historical retail launches (HearingAssist on Walgreens.com, Walmart Canada, and additional Walmart purchase orders) are pending canonical wire URLs and will be added once confirmed. <!-- TODO: confirm operator can supply these. --></p>
-      <ul class="press-list" data-press="list"></ul>
+      <ul class="press-list" data-press="list" data-reveal></ul>
     </div>
 
     <figure class="ir-photo" data-reveal>
@@ -382,7 +455,7 @@
 
       <form name="ir-inquiry" class="contact-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
         <input type="hidden" name="form-name" value="ir-inquiry">
-        <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+        <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="grid-2">
           <label>Name <input type="text" name="name" required autocomplete="name"></label>
           <label>Organization <input type="text" name="organization" autocomplete="organization"></label>
@@ -409,7 +482,7 @@
     </header>
 
     <form id="shareholder-signup-form" class="contact-form" data-reveal>
-      <p class="hp"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off"></label></p>
+      <p class="hp" aria-hidden="true"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <div class="grid-2">
         <label>First name <input type="text" name="first_name" required autocomplete="given-name"></label>
         <label>Last name <input type="text" name="last_name" required autocomplete="family-name"></label>
@@ -461,7 +534,7 @@
 
     <form name="partnerships" class="contact-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html" data-reveal>
       <input type="hidden" name="form-name" value="partnerships">
-      <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
       <div class="grid-2">
         <label>Name <input type="text" name="name" required autocomplete="name"></label>
         <label>Organization <input type="text" name="organization" autocomplete="organization"></label>
@@ -503,7 +576,7 @@
       <!-- TODO: legal review required before publish. -->
     </section>
 
-    <p class="muted micro-note">© <span id="year"></span> InnerScope Hearing Technologies, Inc. All rights reserved. Last updated <span id="last-updated">2026-05-04</span>.</p>
+    <p class="muted micro-note">© <span id="year"></span> InnerScope Hearing Technologies, Inc. All rights reserved. Last updated <span id="last-updated">2026-06-14</span>.</p>
   </div>
 </footer>
 
