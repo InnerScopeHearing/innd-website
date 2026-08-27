@@ -700,11 +700,18 @@ form .honeypot { position: absolute; left: -10000px; height: 0; width: 0; overfl
 /* ============================================================
    iHEARtest beta sign-up form handler
 
-   When the n8n workflow is deployed, set the constant below to
-   the webhook URL. Until then, the form shows a friendly
-   "not yet wired up" notice instead of failing silently.
+   When a replacement intake endpoint is deployed, set the
+   constant below to its URL. Until then, the form shows a
+   friendly "not yet wired up" notice instead of failing silently.
+
+   2026-08-27: the previous value pointed at the RETIRED n8n
+   Cloud workspace (otchealth.app.n8n.cloud, decommissioned
+   June 2026), so every live application submitted since then
+   was silently lost against a 404. Its Azure self-host
+   successor is also gone (subscription deleted 2026-08-13).
+   Cleared so applicants get the working email path instead.
    ============================================================ */
-const BETA_SIGNUP_WEBHOOK_URL = "https://otchealth.app.n8n.cloud/webhook/iheartest-beta-signup";
+const BETA_SIGNUP_WEBHOOK_URL = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("beta-form");
